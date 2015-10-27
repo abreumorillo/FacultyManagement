@@ -1,5 +1,5 @@
 <?php
-require_once('vendor/autoload.php');
+    require_once('vendor/autoload.php');
 ?>
 
 <!DOCTYPE html>
@@ -44,24 +44,23 @@ require_once('vendor/autoload.php');
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li><a ui-sref="index" ui-sref-active="active">
-              <i class="fa fa-home fa-lg"></i>&nbsp;Home</a>
-          </li>
-
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-          <li data-ng-if="!isAuthenticated">
-             <a ui-sref="login"> <i class="fa fa-user fa-lg"></i>&nbsp; Login</a>
-         </li>
-         <li data-ng-if="isAuthenticated" ng-cloak="">
-          <a data-ng-click="logOut()">
-              {{lastName }} {{firstName}} | Logout</a>
-          </li>
-      </ul>
-  </div><!-- /.navbar-collapse -->
-</div><!-- /.container-fluid -->
-</nav>
+            <ul class="nav navbar-nav">
+                <li><a ui-sref="index" ui-sref-active="active">
+                  <i class="fa fa-home fa-lg"></i>&nbsp;Home</a>
+                </li>
+            </ul>
+          <ul class="nav navbar-nav navbar-right">
+              <li data-ng-if="!isAuthenticated">
+                 <a ui-sref="login"> <i class="fa fa-user fa-lg"></i>&nbsp; Login</a>
+             </li>
+             <li data-ng-if="isAuthenticated" ng-cloak="">
+              <a data-ng-click="logOut()">
+                  {{lastName }} {{firstName}} | Logout</a>
+              </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
 </header>
 
 <main class="container">

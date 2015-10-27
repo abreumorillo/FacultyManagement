@@ -31,26 +31,26 @@ So far, this is the folder structure.
     
 ```
 ##Appication description
- 
-## Server Side
 
-Language: **PHP**.
+The purpose of this application is ... 
 
-DBMS: **MySQL**
 
-## Client Side
+##Language for each application layer
+
+### Presentation Layer
 
 The front-end will be developed using the common web tecnologies: **HTML, CSS and JavaScript**.
 
-###Front-end frameworks:
-CSS: **Bootstrap**
+Language: **JavaScript**
 
-JavaScript: **AngularJS**
+### Bussiness Layer
+Language: **PHP**
+
+###Data Layer
+Language: **PHP**
 
 ##Use case diagram
 We need to describe the functionality of our system.
-
-##Class diagram
 
 
 ##Entity-relationship model
@@ -59,3 +59,11 @@ We need to describe the functionality of our system.
 In order to provide a sketch of the user interface we can use this resource https://balsamiq.com/?gclid=Cj0KEQjw75yxBRD78uqEnuG-5vcBEiQAQbaxSMbgu05vMG4lN3rF5sFhu0XGsYIgjgbSQReKBbrYEYYaAk1_8P8HAQ
 
 ##Key functionality
+1. Search for papers
+  * View the details of a selected paper.
+2. Login functionality for faculty
+3. Allow faculty to add new research paper
+4. Allow faculty to browse previously published papers.
+5. Allow faculty to view details of published papers
+6. Login functionality for student
+7. Aministration area for creating Faculty | students | keywords (TBD)
