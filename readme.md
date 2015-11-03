@@ -28,11 +28,11 @@ So far, this is the folder structure.
 ├───template
 └───vendor
     └───composer
-    
+
 ```
 ##Appication description
 
-The purpose of this application is ... 
+The purpose of this application is ...
 
 
 ##Language for each application layer

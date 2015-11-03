@@ -6,4 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'FRD\\DAL\\Database' => $baseDir . '/server/src/DAL/Database.php',
+    'FRD\\DAL\\Repositories\\TestRepository' => $baseDir . '/server/src/DAL/Repositories/TestRepository.php',
+    'FRD\\DAL\\Repositories\\base\\BaseRepository' => $baseDir . '/server/src/DAL/Repositories/base/BaseRepository.php',
 );
