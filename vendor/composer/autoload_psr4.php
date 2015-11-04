@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'FRD\\' => array($baseDir . '/server/src'),
+    'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
 );

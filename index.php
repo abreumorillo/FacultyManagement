@@ -1,11 +1,18 @@
 <?php
 
 require_once('vendor/autoload.php');
+//load .evn library
+$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv->load();
+
 
 use FRD\DAL\Repositories\TestRepository;
 $repo = new TestRepository();
-
 $repo->testQuery();
+
+
+
+var_dump(getenv('DATABASE'));
 ?>
 
 <!DOCTYPE html>

@@ -3,6 +3,9 @@
 ehthumbs.db
 Icon?
 Thumbs.db
+.env
+#composer vendor folder
+vendor/
 
 # compiled 
 *.com

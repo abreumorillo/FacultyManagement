@@ -3,5 +3,8 @@
         "psr-4": {
             "FRD\\": "server/src"
         }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^2.1"
     }
 }
