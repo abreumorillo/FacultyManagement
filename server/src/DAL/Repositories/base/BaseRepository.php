@@ -1,6 +1,4 @@
 <?php
-
-if(count(get_included_files()) ==1) exit("Direct access not permitted.");
 /**
  * Purpose          : This class is used to provide the common functionality for repositories that need to access the database.
  * Date             : 3/14/2015

@@ -1,14 +1,11 @@
 <?php
 
-//require_once('server/app/DAL/Repositories/TestRepository.php');
-
 require_once('vendor/autoload.php');
 
+use FRD\DAL\Repositories\TestRepository;
+$repo = new TestRepository();
 
-//use FRD\DAL\Repositories\TestRepository;
-
-//new TestRepository();
-
+$repo->testQuery();
 ?>
 
 <!DOCTYPE html>

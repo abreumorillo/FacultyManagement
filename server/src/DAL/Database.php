@@ -1,7 +1,6 @@
 <?php
 
-
-if(count(get_included_files()) ==1) exit("Direct access not permitted.");
+// if(count(get_included_files()) ==1) exit("Direct access not permitted.");
 /**
  * Purpose  : This class provide access to the database. this class follow this approach
  *            https://gist.github.com/jonashansen229/4534794
@@ -44,13 +43,14 @@ class Database {
         //$this->_connection = new mysqli($hostname, $username, $password, $database);
 
         //development connection
-        $this->_connection = new mysqli($this->_hostName, $this->_username, $this->_password, $this->_database);
+        $this->_connection = new \mysqli($this->_hostName, $this->_username, $this->_password, $this->_database);
 
         // Error handling.
         if (mysqli_connect_error()) {
             trigger_error('Failed to connect to MySQL: ' . mysqli_connect_error(), E_USER_ERROR);
         }
     }
+
 
     /**
      * Empty clone magic method to prevent duplication.
