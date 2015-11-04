@@ -22,14 +22,21 @@ class TestRepository extends BaseRepository
 
     public function testQuery()
     {
-        $query = "SELECT * FROM papers";
-        $result = $this->mysqli->query($query);
-        if($result->num_rows > 0) {
-            while($row = $result->fetch_object()){
-                var_dump($row);
-            }
-        }
 
+        $query = "SELECT * FROM papers WHERE id = ?";
+        $papers = $this->db->rawQuery($query, array(5));
+
+        var_dump($papers);
+
+        // $result = $this->mysqli->query($query);
+        // if($result->num_rows > 0) {
+        //     while($row = $result->fetch_object()){
+        //         var_dump($row);
+        //     }
+        // }
+        // $this->db->where('id', 5);
+        // $papers = $this->db->get('papers');
+        // var_dump($papers);
     }
 
 }

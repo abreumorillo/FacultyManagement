@@ -11,12 +11,13 @@ use FRD\DAL\Database;
 abstract class BaseRepository {
     //This property is declared protected so that subclasses can have access to it.
     protected $mysqli;
+    protected $db;
 
     function __construct()
     {
         //Get instance of the database
-        $db = Database::getInstance();
+        $this->db = Database::getInstance();
         //Get the connection to the database
-        $this->mysqli = $db->getConnection();
+        $this->mysqli = $this->db->getConnection();
     }
 }
