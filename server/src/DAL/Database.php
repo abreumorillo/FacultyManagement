@@ -14,13 +14,13 @@ class Database {
     /**
      * Database connection information
      */
-    private $_hostName = "localhost";
-    private $_username = "root";
-    private $_password = "secret";
-    private $_database = "research";
+    private $_hostName;
+    private $_username;
+    private $_password;
+    private $_database;
 
     /**
-     * The SQL query to be prepared 
+     * The SQL query to be prepared
      * @var string
      */
     protected $_query;
@@ -80,6 +80,11 @@ class Database {
      * Class Constructor.
      */
     private function __construct() {
+
+        $this->_hostName = getenv('HOSTNAME');
+        $this->_password = getenv('PASSWORD');
+        $this->_username = getenv('USERNAME');
+        $this->_database = getenv('DATABASE');
         //require the file with the necesary information for connecting to the database
         //require_once "/home/nsa2741/db_conn.php"; //$hostname, $username, $password, $database
         //$this->_connection = new mysqli($hostname, $username, $password, $database);
@@ -139,7 +144,7 @@ class Database {
         $this->_query = $query;
         $stmt = $this->_prepareQuery();
 
-        if(is_array($bindParams) === true) 
+        if(is_array($bindParams) === true)
         {
             foreach ($bindParams as $prop => $val) {
                 $params[0] .= $this->_determineType($val);
@@ -379,7 +384,7 @@ class Database {
      *
      * @return dbObject
      */
-        public function JsonBuilder () 
+        public function JsonBuilder ()
         {
             $this->returnType = 'Json';
             return $this;
@@ -391,7 +396,7 @@ class Database {
      *
      * @return dbObject
      */
-    public function ArrayBuilder () 
+    public function ArrayBuilder ()
     {
         $this->returnType = 'Array';
         return $this;
@@ -402,7 +407,7 @@ class Database {
      *
      * @return dbObject
      */
-    public function ObjectBuilder () 
+    public function ObjectBuilder ()
     {
         $this->returnType = 'Object';
         return $this;
@@ -453,7 +458,7 @@ class Database {
             break;
         }
         return '';
-    } 
+    }
 
         /**
      * Function to replace ? with variables from bind variable
@@ -462,7 +467,7 @@ class Database {
      *
      * @return string
      */
-        protected function replacePlaceHolders ($str, $vals) 
+        protected function replacePlaceHolders ($str, $vals)
         {
             $i = 1;
             $newStr = "";

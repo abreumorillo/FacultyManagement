@@ -11,8 +11,6 @@ $repo = new TestRepository();
 $repo->testQuery();
 
 
-
-var_dump(getenv('DATABASE'));
 ?>
 
 <!DOCTYPE html>
