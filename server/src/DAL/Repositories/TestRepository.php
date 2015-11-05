@@ -24,6 +24,8 @@ class TestRepository extends BaseRepository
     {
 
         $query = "SELECT * FROM papers WHERE id = ?";
+        // $id = $this->db->escape(5);
+        // var_dump($id);
         $papers = $this->db->rawQuery($query, array(5));
 
         var_dump($papers);
