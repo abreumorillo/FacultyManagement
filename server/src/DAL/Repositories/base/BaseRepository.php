@@ -9,15 +9,27 @@ namespace FRD\DAL\Repositories\base;
 use FRD\DAL\Database;
 
 abstract class BaseRepository {
-    //This property is declared protected so that subclasses can have access to it.
-    protected $mysqli;
+
+    /**
+     * Current active connection
+     * @var mysqli connection
+     */
+    protected $connection;
+
+    /**
+     * Instance of the database connection
+     * @var Database
+     */
     protected $db;
 
+    /**
+     * Initializes the database connection
+     */
     function __construct()
     {
         //Get instance of the database
         $this->db = Database::getInstance();
         //Get the connection to the database
-        $this->mysqli = $this->db->getConnection();
+        $this->connection = $this->db->getConnection();
     }
 }

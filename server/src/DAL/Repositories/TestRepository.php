@@ -20,25 +20,40 @@ class TestRepository extends BaseRepository
         echo $input;
     }
 
-    public function testQuery()
+    public function testQuery($id)
     {
 
-        $query = "SELECT * FROM papers WHERE id = ?";
+        $query = "SELECT * FROM papers WHERE id = 1";
         // $id = $this->db->escape(5);
         // var_dump($id);
-        $papers = $this->db->rawQuery($query, array(5));
+        $papers = $this->db->query($query);
 
         var_dump($papers);
 
-        // $result = $this->mysqli->query($query);
-        // if($result->num_rows > 0) {
-        //     while($row = $result->fetch_object()){
-        //         var_dump($row);
-        //     }
-        // }
-        // $this->db->where('id', 5);
-        // $papers = $this->db->get('papers');
-        // var_dump($papers);
+    }
+
+    public function getLastInsertedId() {
+        return $this->db->getLastInsertedId('papers');
+    }
+
+    public function insertData()
+    {
+        //id, title, abstract, citation,
+        $nextPaperId = ($this->db->getLastInsertedId('papers') + 1);
+        $query = "INSERT INTO papers (id, title, abstract, citation) VALUES (?, ?, ?, ?)";
+        //
+        // $query = "INSERT INTO papers SET
+        // id = ?,
+        // title = ?,
+        // abstract = ?,
+        // citation = ? ";
+        $id = $nextPaperId;
+        $title = "Paper title $id";
+        $abstract = "Paper abstract $id";
+        $citation = "Citation $id";
+
+        return $this->db->noSelect($query, array($nextPaperId, $title, $abstract, $citation));
+
     }
 
 }

@@ -6,11 +6,14 @@ $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 
 
-use FRD\DAL\Repositories\TestRepository;
-$repo = new TestRepository();
-$repo->testQuery();
+// use FRD\DAL\Repositories\TestRepository;
+// $repo = new TestRepository();
 
+// $id = $repo->getLastInsertedId() + 1;
+// var_dump($id);
 
+// $repo->testQuery(7);
+//  var_dump($repo->insertData());
 ?>
 
 <!DOCTYPE html>
