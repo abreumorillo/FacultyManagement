@@ -5,9 +5,9 @@ Icon?
 Thumbs.db
 .env
 #composer vendor folder
-vendor/
+#vendor/
 
-# compiled 
+# compiled
 *.com
 *.class
 *.dll

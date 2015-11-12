@@ -2,7 +2,8 @@
 
 require_once('vendor/autoload.php');
 //load .evn library
-$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv = new Dotenv\Dotenv(__DIR__); //configuration for local development
+// $dotenv = new Dotenv\Dotenv(__DIR__, '.env.example'); //Config for sharing and testing
 $dotenv->load();
 
 
@@ -11,9 +12,10 @@ $dotenv->load();
 
 // $id = $repo->getLastInsertedId() + 1;
 // var_dump($id);
-
-// $repo->testQuery(7);
-//  var_dump($repo->insertData());
+// var_dump($repo->updateData(15))
+ // $repo->testQuery(7);
+// var_dump($repo->insertData());
+// var_dump($repo->deleteData(16));
 ?>
 
 <!DOCTYPE html>

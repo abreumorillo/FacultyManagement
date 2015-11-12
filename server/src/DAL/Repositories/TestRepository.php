@@ -56,4 +56,20 @@ class TestRepository extends BaseRepository
 
     }
 
+    public function updateData($id)
+    {
+        $query = "UPDATE papers SET
+                    title =?,
+                    abstract= ?
+                    WHERE id = ?";
+        return $this->db->noSelect($query, array("Updated title", "Updated abastract", $id));
+    }
+
+    function deleteData($id)
+    {
+        $query = "DELETE FROM papers WHERE id = ?";
+
+        return $this->db->noSelect($query,array($id));
+    }
+
 }

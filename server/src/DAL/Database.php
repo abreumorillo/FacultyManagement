@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Purpose  : This class provide access to the database. this class follow this approach
- *            https://gist.github.com/jonashansen229/4534794
+ * Purpose  : This class provide access to the database. So far this class provides the following functionalities:
+ *            execute paremeterized queries, execute transactions. We followed the Singleton design pattern. This class follow this approach https://       gist.github.com/jonashansen229/4534794
  * Date     : 3/8/2015
  * @author  : Neris Sandino Abreu
  */
@@ -94,7 +94,7 @@ class Database
     }
 
     /**
-     * Class Constructor.
+     * Class Constructor. It initializes the database connection.
      */
     private function __construct()
     {
@@ -120,7 +120,7 @@ class Database
     }
 
     /**
-     * Get the mysqli connection.
+     * Get the current mysqli connection.
      */
     public function getConnection()
     {
@@ -128,7 +128,7 @@ class Database
     }
 
     /**
-     * Return the last executed query
+     * Return the last executed query.
      * @return string
      */
     public function getLastQuery()
@@ -137,7 +137,7 @@ class Database
     }
 
     /**
-     * Function for Select type queries
+     * Function for Select type queries.
      * @param  string $query
      * @param  array $bindParams
      * @return mix
@@ -148,7 +148,7 @@ class Database
     }
 
     /**
-     * Function for executing Insert, Update or Delete operation
+     * Function for executing Insert, Update or Delete operation.
      * @param  string $query
      * @param  array $bindParams  array of params
      * @return boolean
@@ -159,11 +159,11 @@ class Database
         if ($this->count > 0) {
             return true;
         }
-        return $false;
+        return false;
     }
 
     /**
-    * Method returns mysql error
+    * Method returns the last mysql error.
     *
     * @return string
     */
@@ -176,16 +176,14 @@ class Database
     }
 
     /**
-    * Begin a transaction
+    * Begin a transaction.
     *
     * @uses mysqli->autocommit(false)
-    * @uses register_shutdown_function(array($this, "_transaction_shutdown_check"))
     */
     public function startTransaction()
     {
         $this->_connection->autocommit(false);
         $this->_transaction_in_progress = true;
-        register_shutdown_function(array($this, "_transaction_status_check"));
     }
 
     /**
@@ -215,7 +213,7 @@ class Database
     }
 
     /**
-    * This methods returns the ID of the last inserted item
+    * This methods returns the ID of the last inserted item. This method is useful when the table has auto-increment PK.
     *
     * @return integer The last inserted item ID.
     */
@@ -228,7 +226,6 @@ class Database
     * Escape harmful characters which might affect a query.
     *
     * @param string $str The string to escape.
-    *
     * @return string The escaped string.
     */
     public function escape($str)
@@ -240,7 +237,7 @@ class Database
      * Get the id of the last inserted record in  a given table. This method is useful when we are not using  auto-increment.
      * @param  string $tableName       name of the table
      * @param  string $primaryKeyColum  primary key column
-     * @return int
+     * @return int The last inserted id in a given table.
      */
     public function getLastInsertedId($tableName, $primaryKeyColum = 'id')
     {
@@ -256,7 +253,7 @@ class Database
      * This perform the raw query operation. It builds the query dynamically using prepare statement
      * @param  string $query
      * @param  array $bindParams
-     * @return mix
+     * @return array containing returned objects from the database.
      */
     private function rawQuery($query, $bindParams = null)
     {
@@ -278,14 +275,12 @@ class Database
         $this->_lastQuery = $this->replacePlaceHolders($this->_query, $params); //
         $res = $this->_dynamicBindResults($stmt);
         $this->reset();
-
         return $res;
     }
 
     /**
     * Method attempts to prepare the SQL query
-    * and throws an error if there was a problem.
-    *
+    * @throws an error if there was a problem.
     * @return mysqli_stmt
     */
     protected function _prepareQuery()
@@ -303,7 +298,6 @@ class Database
     * and then updates the param_type.
     *
     * @param mixed $item Input to determine the type.
-    *
     * @return string The joined parameter types.
     */
     protected function _determineType($item)
@@ -334,7 +328,6 @@ class Database
     * Function to replace ? with variables from bind variable
     * @param string $str
     * @param Array $vals
-    *
     * @return string
     */
     protected function replacePlaceHolders($str, $vals)
@@ -362,7 +355,6 @@ class Database
     * when the number of variables to pass is unknown.
     *
     * @param mysqli_stmt $stmt Equal to the prepared statement object.
-    *
     * @return array The results of the SQL fetch.
     */
     protected function _dynamicBindResults(\mysqli_stmt $stmt)
@@ -461,17 +453,13 @@ class Database
     }
 
     /**
-    * Reset states after an execution
-    *
-    * @return object Returns the current instance.
+    * Reset states after an execution of any database operation.
     */
     protected function reset()
     {
-        $this->_where = array();
         $this->_bindParams = array(''); // Create the empty 0 index
         $this->_query = null;
         $this->returnType = 'Object';
-        $this->_tableName = '';
         $this->_lastInsertId = null;
     }
 }
