@@ -1,14 +1,16 @@
 <?php
 
+
 require_once('vendor/autoload.php');
 //load .evn library
 $dotenv = new Dotenv\Dotenv(__DIR__); //configuration for local development
 // $dotenv = new Dotenv\Dotenv(__DIR__, '.env.example'); //Config for sharing and testing
 $dotenv->load();
 
-
-// use FRD\DAL\Repositories\TestRepository;
-// $repo = new TestRepository();
+use FRD\Common\CommonFunction;
+use FRD\DAL\Repositories\TestRepository;
+use FRD\Model\Paper;
+$repo = new TestRepository();
 
 // $id = $repo->getLastInsertedId() + 1;
 // var_dump($id);
@@ -16,6 +18,17 @@ $dotenv->load();
  // $repo->testQuery(7);
 // var_dump($repo->insertData());
 // var_dump($repo->deleteData(16));
+//
+// $arrayAso = ['val1'=>'value1', 'val2' => 'value 2', 'val3'=>'value 3'];
+// $array = array('test1', 'test2', 'test3');
+// echo "'".implode(",", array_keys($arrayAso))."'";
+// echo '<br>';
+// echo implode(" ", $array);
+
+// var_dump(CommonFunction::isAssociativeArray($arrayAso));
+$paper = new Paper();
+
+var_dump($paper->getById(10));
 ?>
 
 <!DOCTYPE html>

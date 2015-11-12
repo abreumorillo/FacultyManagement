@@ -6,9 +6,11 @@
  */
 
 namespace FRD\DAL\Repositories\base;
+
 use FRD\DAL\Database;
 
-abstract class BaseRepository {
+abstract class BaseRepository
+{
 
     /**
      * Current active connection
@@ -25,11 +27,12 @@ abstract class BaseRepository {
     /**
      * Initializes the database connection
      */
-    function __construct()
+    public function __construct()
     {
         //Get instance of the database
         $this->db = Database::getInstance();
         //Get the connection to the database
         $this->connection = $this->db->getConnection();
     }
+
 }
