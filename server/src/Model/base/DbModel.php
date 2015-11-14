@@ -2,6 +2,7 @@
 
 namespace FRD\Model\base;
 
+use FRD\Common\Exceptions\NotArrayException;
 use FRD\DAL\Database;
 use FRD\Interfaces\DbModelInterface;
 
@@ -15,6 +16,10 @@ abstract class DbModel implements DbModelInterface
     * @var string
     */
     protected $tableName;
+
+    protected $lastInsertedId = 0;
+
+
     /**
      * Current active connection
      * @var mysqli connection
@@ -38,13 +43,6 @@ abstract class DbModel implements DbModelInterface
         $this->connection = $this->db->getConnection();
     }
 
-    // public function getById($id, $fields = '*');
-    // public function get($condiction = null, $fields = '*', $limit = null, $offset = null);
-    // public function post($tableName, $data);
-    // public function put($tableName, $condiction, $data);
-    // public function delete($tableName, $condiction);
-    // public function query($sql);
-
     /**
      * Get a database row by Id
      * @param  int $id
@@ -59,5 +57,150 @@ abstract class DbModel implements DbModelInterface
         $query = "SELECT ".$fields. " FROM ".$this->tableName." WHERE id = ?";
         $params = array($id);
         return $this->db->query($query, $params);
+    }
+
+    /**
+     * Get information from the database. this method is pagination ready
+     * @param  array  $condition   array containing the condition of the query. So far we only consider one condition. ['key' => 'value']
+     * @param  mix  $fields         can be an array of fields or * if not specified
+     * @param  integer $page        page
+     * @param  integer $itemPerPage  item per page
+     * @return mix
+     */
+    public function get($condition = null, $fields = '*', $page = 1, $itemPerPage = 10)
+    {
+        $start = ($page -1) * $itemPerPage;
+        if (is_array($fields)) {
+            $fields = implode(", ", $fields);
+        }
+        //The condition is used for the query selection criteria
+        if ($condition != null && $condition != '*') {
+            $conditionKey = array_keys($condition)[0]; //for the moment we only consider one condition
+            $conditionValue = $condition[$conditionKey];
+            $query = "SELECT ".$fields. " FROM ".$this->tableName." WHERE ".$conditionKey. " = ? LIMIT ? OFFSET ?";
+            $params = array($conditionValue, $itemPerPage, $start);
+        } else {
+            $query = "SELECT ".$fields. " FROM ".$this->tableName. " LIMIT ? OFFSET ?";
+            $params = array($itemPerPage, $start);
+        }
+
+        return $this->db->query($query, $params);
+    }
+
+    /**
+     * Save data to the database
+     * @param  array $data  ['key' => value], every key must be a column in the database table
+     * @return int
+     */
+    public function post($data)
+    {
+        $fields = $this->getFields($data, 'id');
+        $paramasAndPlaceHolder = $this->getParamsAndPlaceHolders($data, true);
+        $query = "INSERT INTO ".$this->tableName. " (". $fields." ) VALUES (". $paramasAndPlaceHolder['placeholders'] .")";
+
+        if ($this->db->noSelect($query, $paramasAndPlaceHolder['params'])) {
+            return $this->lastInsertedId;
+        }
+        return 0;
+    }
+
+    /**
+     * Update a row in the database.
+     * @param  array $condition  indicate the update condition
+     * @param  array $data       key=>value representation of the data to update
+     * @return boolean
+     */
+    public function put($condition, $data)
+    {
+        $inputData = $data;
+        $fields = $this->getFields($data);
+        $conditionKey = array_keys($condition)[0]; //for the moment we only consider one condition
+        $conditionValue = $condition[$conditionKey];
+
+        $query = "UPDATE ".$this->tableName." SET ";
+
+        foreach ($data as $key => $value) {
+            if (end($data) === $value) {
+                $query .= $key." = ? ";
+            } else {
+                $query .= $key." = ?, ";
+            }
+        }
+
+        $query .= "WHERE ".$conditionKey." = ".$conditionValue;
+        $params = $this->getParamsAndPlaceHolders($data)['params'];
+
+        return $this->db->noSelect($query, $params);
+    }
+
+    /**
+     * Delete an existing record from the database.
+     * @param  array $condition. The condition array so far only take into consideration one condition.
+     * @return boolean
+     */
+    public function delete($condition)
+    {
+        if(!is_array($condition)){
+            throw new NotArrayException("The data provided is not an array");
+        }
+
+        $conditionKey = array_keys($condition)[0];
+        $params[] = $condition[$conditionKey];
+        $query = "DELETE FROM ".$this->tableName. " WHERE ".$conditionKey. " = ?";
+        return $this->db->noSelect($query, $params);
+    }
+
+    /**
+     * Execute a SQL query
+     * @param  strin $sql sql query
+     * @return array|object
+     */
+    public function query($sql)
+    {
+        return $this->db-select($sql);
+    }
+
+    /**
+     * Get the columns name for a query.
+     * @param  array $data array of key value pair
+     * @param  string $aditionalField
+     * @return string comma separated list of string.
+     */
+    private function getFields($data, $aditionalField = null)
+    {
+        $fields = implode(", ", array_keys($data));
+        if ($aditionalField) {
+            $fields .= ", ".$aditionalField;
+        }
+        return $fields;
+    }
+
+    /**
+     * Get the parameters and placeholders for a query base on the given data. It generates an array of params
+     * and a comma separated list of placeholders based on the amount of parameters.
+     * @param  array $data value pair array of data. 'key' => value
+     * @return array containing parameters and placeholders
+     */
+    private function getParamsAndPlaceHolders($data, $aditionalField = null)
+    {
+        $placeHolders  = "";
+        $params = [];
+
+        foreach ($data as $key => $value) {
+            $params[] = $this->db->escape($value); //escape params  - good practice
+            $placeHolders .= "?, ";
+        }
+
+        $placeHolders = rtrim($placeHolders, ", ");
+
+        if ($aditionalField) {
+            $placeHolders .= ', ?';
+            $this->lastInsertedId = $this->db->getLastInsertedId($this->tableName) + 1;
+            $params[] = $this->lastInsertedId; //if not autoincrement
+        }
+        return [
+            'placeholders' => $placeHolders,
+            'params' => $params
+        ];
     }
 }

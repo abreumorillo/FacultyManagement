@@ -9,5 +9,16 @@ use FRD\Model\base\DbModel;
 */
 class Paper extends DbModel
 {
+    /**
+     * table name
+     * @var string
+     */
     protected $tableName = 'papers';
+
+    /**
+     * To indicate wheather or not this table uses auto increment PK
+     * @var boolean
+     */
+    protected $isAutoIncrement = false;
+
 }

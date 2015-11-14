@@ -28,7 +28,17 @@ $repo = new TestRepository();
 // var_dump(CommonFunction::isAssociativeArray($arrayAso));
 $paper = new Paper();
 
-var_dump($paper->getById(10));
+//var_dump($paper->getById(10));
+// var_dump($paper->get(['title' => 'Updated title'], ['title', 'abstract'], 1,20));
+$data = [
+    'title' => 'Paper Model title updated',
+    'abstract' => 'Paper Model abstract updated',
+    'citation' =>  'citation1 citation2, citation 3, citation 4'
+];
+//$last_key = end(array_keys($data));
+//var_dump($paper->post($data));
+//$paper->put(array('id' => 20),$data);
+var_dump($paper->delete(array('id' => 19 )));
 ?>
 
 <!DOCTYPE html>
