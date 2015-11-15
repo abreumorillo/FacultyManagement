@@ -121,6 +121,7 @@ class Database
 
     /**
      * Get the current mysqli connection.
+     * @return mysqli connection
      */
     public function getConnection()
     {

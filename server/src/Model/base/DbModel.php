@@ -2,12 +2,15 @@
 
 namespace FRD\Model\base;
 
+use FRD\Common\CommonFunction;
 use FRD\Common\Exceptions\NotArrayException;
+use FRD\Common\Exceptions\NotAssociativeArrayException;
 use FRD\DAL\Database;
 use FRD\Interfaces\DbModelInterface;
 
 /**
-* Base Model class
+* Base Model class. This class should be extended by  any model class. It provides all the
+* common functionalities to interact with the database.
 */
 abstract class DbModel implements DbModelInterface
 {
@@ -17,6 +20,10 @@ abstract class DbModel implements DbModelInterface
     */
     protected $tableName;
 
+    /**
+     * Represent the last inserted id in a given table.
+     * @var integer
+     */
     protected $lastInsertedId = 0;
 
 
@@ -44,7 +51,7 @@ abstract class DbModel implements DbModelInterface
     }
 
     /**
-     * Get a database row by Id
+     * Get a database row by Id.
      * @param  int $id
      * @param  mix $fields
      * @return object
@@ -88,12 +95,16 @@ abstract class DbModel implements DbModelInterface
     }
 
     /**
-     * Save data to the database
+     * Save data to the database.
      * @param  array $data  ['key' => value], every key must be a column in the database table
+     * @throws NotAssociativeArrayException
      * @return int
      */
     public function post($data)
     {
+        if (!CommonFunction::isAssociativeArray($data)) {
+            throw new NotAssociativeArrayException("This function expect an associative array");
+        }
         $fields = $this->getFields($data, 'id');
         $paramasAndPlaceHolder = $this->getParamsAndPlaceHolders($data, true);
         $query = "INSERT INTO ".$this->tableName. " (". $fields." ) VALUES (". $paramasAndPlaceHolder['placeholders'] .")";
@@ -108,10 +119,14 @@ abstract class DbModel implements DbModelInterface
      * Update a row in the database.
      * @param  array $condition  indicate the update condition
      * @param  array $data       key=>value representation of the data to update
+     * @throws NotAssociativeArrayException
      * @return boolean
      */
     public function put($condition, $data)
     {
+        if (!CommonFunction::isAssociativeArray($data)) {
+            throw new NotAssociativeArrayException("This function expect an associative array");
+        }
         $inputData = $data;
         $fields = $this->getFields($data);
         $conditionKey = array_keys($condition)[0]; //for the moment we only consider one condition
@@ -136,12 +151,13 @@ abstract class DbModel implements DbModelInterface
     /**
      * Delete an existing record from the database.
      * @param  array $condition. The condition array so far only take into consideration one condition.
+     * @throws NotAssociativeArrayException
      * @return boolean
      */
     public function delete($condition)
     {
-        if(!is_array($condition)){
-            throw new NotArrayException("The data provided is not an array");
+        if (!CommonFunction::isAssociativeArray($condition)) {
+            throw new NotAssociativeArrayException("This function expect an associative array");
         }
 
         $conditionKey = array_keys($condition)[0];

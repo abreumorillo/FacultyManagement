@@ -1,6 +1,5 @@
 <?php
 
-
 require_once('vendor/autoload.php');
 //load .evn library
 $dotenv = new Dotenv\Dotenv(__DIR__); //configuration for local development
@@ -10,6 +9,7 @@ $dotenv->load();
 use FRD\Common\CommonFunction;
 use FRD\DAL\Repositories\TestRepository;
 use FRD\Model\Paper;
+
 $repo = new TestRepository();
 
 // $id = $repo->getLastInsertedId() + 1;
@@ -36,9 +36,11 @@ $data = [
     'citation' =>  'citation1 citation2, citation 3, citation 4'
 ];
 //$last_key = end(array_keys($data));
-//var_dump($paper->post($data));
+// var_dump($paper->post($data));
+
+
 //$paper->put(array('id' => 20),$data);
-var_dump($paper->delete(array('id' => 19 )));
+//var_dump($paper->delete(array('id' => 19 )));
 ?>
 
 <!DOCTYPE html>

@@ -3,31 +3,87 @@
 
 ###Documentation...
 
-For autoloading and namespacing composer will be used.
+For autoloading and namespacing composer will be used. The main namespace for this application if **FRD**  (Faculty Research Database). The FRD namespace is basically mapped to server/src folder, so that means that everything under this folder structure will be automacally autoload by the composer autoload.
 
 So far, this is the folder structure.
 ```
-├───assets
-│   ├───css
-│   ├───fonts
-│   ├───images
-│   └───js
-├───client
-│   ├───controllers
-│   ├───services
-│   └───views
-├───server
-│   └───FRD
-│       ├───BL
-│       ├───Common
-│       ├───Controllers
-│       ├───DAL
-│       │   └───Repositories
-│       │       └───base
-│       └───Model
-├───template
-└───vendor
-    └───composer
+├── assets
+│   ├── css
+│   │   ├── angular-toastr.min.css
+│   │   ├── animate.css
+│   │   ├── bootstrap-theme.min.css
+│   │   ├── bootstrap.min.css
+│   │   ├── font-awesome.css
+│   │   ├── font-awesome.min.css
+│   │   └── style.css
+│   ├── fonts
+│   │   ├── FontAwesome.otf
+│   │   ├── fontawesome-webfont.eot
+│   │   ├── fontawesome-webfont.svg
+│   │   ├── fontawesome-webfont.ttf
+│   │   ├── fontawesome-webfont.woff
+│   │   └── fontawesome-webfont.woff2
+│   ├── images
+│   └── js
+│       ├── angular-animate.min.js
+│       ├── angular-aria.min.js
+│       ├── angular-cookies.min.js
+│       ├── angular-messages.min.js
+│       ├── angular-sanitize.min.js
+│       ├── angular-toastr.tpls.min.js
+│       ├── angular-touch.min.js
+│       ├── angular-ui-router.min.js
+│       ├── angular.min.js
+│       ├── bootstrap.min.js
+│       └── jquery-1.11.3.min.js
+├── client
+│   ├── app.js
+│   ├── controllers
+│   └── services
+├── composer.json
+├── composer.lock
+├── documentation.md
+├── index.php
+├── readme.md
+├── server
+│   └── src
+│       ├── Common
+│       │   ├── CommonFunction.php
+│       │   └── Exceptions
+│       │       └── NotArrayException.php
+│       ├── Controllers
+│       ├── DAL
+│       │   ├── Database.php
+│       │   └── Repositories
+│       │       ├── TestRepository.php
+│       │       └── base
+│       │           └── BaseRepository.php
+│       ├── Interfaces
+│       │   └── DbModelInterface.php
+│       └── Model
+│           ├── Paper.php
+│           └── base
+│               └── DbModel.php
+├── template
+└── vendor
+    ├── autoload.php
+    ├── composer
+    │   ├── ClassLoader.php
+    │   ├── LICENSE
+    │   ├── autoload_classmap.php
+    │   ├── autoload_namespaces.php
+    │   ├── autoload_psr4.php
+    │   ├── autoload_real.php
+    │   └── installed.json
+    └── vlucas
+        └── phpdotenv
+            ├── LICENSE.txt
+            ├── README.md
+            ├── composer.json
+            └── src
+                ├── Dotenv.php
+                ├── Loader.php
+                └── Validator.php
 
 ```
 ##Appication description
