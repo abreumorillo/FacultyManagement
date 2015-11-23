@@ -16,4 +16,14 @@ class CommonFunction
     {
         return array_keys($array) !== range(0, count($array) - 1);
     }
+
+    public static function getRequestMethod()
+    {
+        return $_SERVER['REQUEST_METHOD'];
+    }
+
+    public static function getRequestAction()
+    {
+        return $_GET['action'];
+    }
 }

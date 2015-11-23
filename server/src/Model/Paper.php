@@ -10,7 +10,7 @@ use FRD\Model\base\DbModel;
 class Paper extends DbModel
 {
     /**
-     * table name
+     * Table name
      * @var string
      */
     protected $tableName = 'papers';

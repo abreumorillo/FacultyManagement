@@ -251,6 +251,21 @@ class Database
     }
 
     /**
+     * Count the number of record in a database table
+     * @param  string $tableName Name of the table
+     * @return int return the number of records or -1 if query  fail.
+     */
+    public function count($tableName) {
+
+        $query = "SELECT COUNT(*) as count FROM ".$tableName;
+        $result = $this->rawQuery($query);
+        if($result) {
+            return $result->count;
+        }
+        return -1;
+    }
+
+    /**
      * This perform the raw query operation. It builds the query dynamically using prepare statement
      * @param  string $query
      * @param  array $bindParams

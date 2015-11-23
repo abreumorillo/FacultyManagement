@@ -7,10 +7,11 @@ $dotenv = new Dotenv\Dotenv(__DIR__); //configuration for local development
 $dotenv->load();
 
 use FRD\Common\CommonFunction;
+use FRD\DAL\Repositories\PaperRepository;
 use FRD\DAL\Repositories\TestRepository;
 use FRD\Model\Paper;
 
-$repo = new TestRepository();
+//$repo = new TestRepository();
 
 // $id = $repo->getLastInsertedId() + 1;
 // var_dump($id);
@@ -26,7 +27,8 @@ $repo = new TestRepository();
 // echo implode(" ", $array);
 
 // var_dump(CommonFunction::isAssociativeArray($arrayAso));
-$paper = new Paper();
+//$paper = new Paper();
+$paperRepository = new PaperRepository();
 
 //var_dump($paper->getById(10));
 // var_dump($paper->get(['title' => 'Updated title'], ['title', 'abstract'], 1,20));
@@ -41,10 +43,12 @@ $data = [
 
 //$paper->put(array('id' => 20),$data);
 //var_dump($paper->delete(array('id' => 19 )));
+//var_dump($paper->count());
+//var_dump($paperRepository->getAll(['title', 'abstract']));
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="frdApp">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -91,11 +95,11 @@ $data = [
               </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li data-ng-if="!isAuthenticated">
+              <li ng-if="!isAuthenticated">
                <a ui-sref="login"> <i class="fa fa-user fa-lg"></i>&nbsp; Login</a>
              </li>
-             <li data-ng-if="isAuthenticated" ng-cloak="">
-              <a data-ng-click="logOut()">
+             <li ng-if="isAuthenticated" ng-cloak="">
+              <a ng-click="logOut()">
                 {{lastName }} {{firstName}} | Logout</a>
               </li>
             </ul>
@@ -109,7 +113,7 @@ $data = [
         <h1 class="page-lead text-center">Faculty Research Database</h1>
         <h3 class="text-center">ISTE-722 Project</h3>
       </div>
-      <div data-ui-view="" class="page page-home" ng-cloak class="ng-cloak"></div>
+      <div ui-view="" class="page page-home" ng-cloak class="ng-cloak"></div>
     </main>
 
 

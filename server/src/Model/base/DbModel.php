@@ -66,6 +66,15 @@ abstract class DbModel implements DbModelInterface
         return $this->db->query($query, $params);
     }
 
+    public function getAll($fields = '*')
+    {
+        if(is_array($fields)) {
+            $fields = implode(", ", $fields);
+        }
+        $query = "SELECT ".$fields ." FROM ". $this->tableName;
+        return $this->db->query($query);
+    }
+
     /**
      * Get information from the database. this method is pagination ready
      * @param  array  $condition   array containing the condition of the query. So far we only consider one condition. ['key' => 'value']
@@ -219,4 +228,13 @@ abstract class DbModel implements DbModelInterface
             'params' => $params
         ];
     }
+    /**
+     * Count the number of record in a given table
+     * @return int
+     */
+    public function count()
+    {
+        return $this->db->count($this->tableName);
+    }
+
 }
