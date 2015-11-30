@@ -1,0 +1,36 @@
+<!-- Search Widget -->
+<div class="jumbotron nga-default nga-slide-up" id="searchWidget" ng-if="!vm.isSearchResult">
+    <h1 class="page-lead text-center">Faculty Research Database</h1>
+    <p class="text-center">Search for research papers.</p>
+    <br>
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="input-group">
+                <input type="text" class="form-control input-lg" placeholder="Search for Papers" ng-enter="vm.search()" ng-model="vm.searchTerm" ng-model-options="{debounce: 1000}" />
+                <span class="input-group-addon pointer" ng-click="vm.search();">
+                <i class="fa fa-search"></i>
+            </span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Result widget -->
+<div class="nga-default nga-default nga-slide-up" ng-if="vm.isSearchResult">
+    <div class="row">
+        <div class="col-sm-4">
+            <h2 style="padding: 0; margin:0;">Result goes here </h2>
+            <!-- <button class="btn btn-sm" ng-click="vm.closeSearch()">Close</button> -->
+        </div>
+        <div class="col-sm-4 col-sm-push-4">
+            <div class="input-group">
+                <input type="text" class="form-control input-lg" placeholder="Search for Papers" ng-enter="vm.search()" ng-model="vm.searchTerm" ng-model-options="{debounce: 1000}" />
+                <span class="input-group-addon pointer" ng-click="vm.search();">
+                <i class="fa fa-search"></i>
+            </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-bordered table-striped"></table>
+    </div>
+</div>

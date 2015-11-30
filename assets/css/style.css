@@ -706,3 +706,15 @@ textarea:focus:-ms-input-placeholder {
 #loading-bar .bar {
     background: #FF8922;
 }
+
+#searchWidget {
+    background-color: transparent;
+}
+
+#searchWidget h1 {
+    font-size: 4em; important!;
+}
+
+.pointer {
+    cursor: pointer;
+}

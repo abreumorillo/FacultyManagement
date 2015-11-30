@@ -1,10 +1,7 @@
 <?php
 
-require_once('vendor/autoload.php');
-//load .evn library
-$dotenv = new Dotenv\Dotenv(__DIR__); //configuration for local development
-// $dotenv = new Dotenv\Dotenv(__DIR__, '.env.example'); //Config for sharing and testing
-$dotenv->load();
+require_once('bootstrapper.inc');
+
 
 use FRD\Common\CommonFunction;
 use FRD\DAL\Repositories\PaperRepository;
@@ -33,9 +30,9 @@ $paperRepository = new PaperRepository();
 //var_dump($paper->getById(10));
 // var_dump($paper->get(['title' => 'Updated title'], ['title', 'abstract'], 1,20));
 $data = [
-    'title' => 'Paper Model title updated',
-    'abstract' => 'Paper Model abstract updated',
-    'citation' =>  'citation1 citation2, citation 3, citation 4'
+'title' => 'Paper Model title updated',
+'abstract' => 'Paper Model abstract updated',
+'citation' =>  'citation1 citation2, citation 3, citation 4'
 ];
 //$last_key = end(array_keys($data));
 // var_dump($paper->post($data));
@@ -44,7 +41,10 @@ $data = [
 //$paper->put(array('id' => 20),$data);
 //var_dump($paper->delete(array('id' => 19 )));
 //var_dump($paper->count());
-//var_dump($paperRepository->getAll(['title', 'abstract']));
+// var_dump($paperRepository->getAll(['title', 'abstract']));
+
+// var_dump($_SERVER);
+
 ?>
 
 <!DOCTYPE html>
@@ -61,6 +61,7 @@ $data = [
   <link href="assets/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/angular-toastr.min.css">
+  <link rel="stylesheet" href="assets/css/nga.min.css">
   <link href="assets/css/style.css" rel="stylesheet">
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -108,15 +109,12 @@ $data = [
       </nav>
     </header>
 
+    <!-- Main content goes here -->
     <main class="container">
-      <div class="jumbotron">
-        <h1 class="page-lead text-center">Faculty Research Database</h1>
-        <h3 class="text-center">ISTE-722 Project</h3>
-      </div>
       <div ui-view="" class="page page-home" ng-cloak class="ng-cloak"></div>
     </main>
 
-
+    <!-- Libraries -->
     <script src="assets/js/jquery-1.11.3.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/angular.min.js"></script>
@@ -126,7 +124,22 @@ $data = [
     <script src="assets/js/angular-touch.min.js"></script>
     <script src="assets/js/angular-messages.min.js"></script>
     <script src="assets/js/angular-aria.min.js"></script>
+    <script src="assets/js/angular-toastr.tpls.min.js"></script>
+    <script src="assets/js/loading-bar.min.js"></script>
     <script src="assets/js/angular-ui-router.min.js"></script>
+    <script src="assets/js/underscore-min.js"></script>
+    <script src="assets/js/angular-underscore-module.js"></script>
 
+    <!-- Custom scritps -->
+    <script src="client/app.js"></script>
+
+    <!-- Services -->
+    <script src="client/Services/index.service.js"></script>
+
+    <!-- Directives -->
+    <script src="client/directives/common.directive.js"></script>
+
+    <!-- Controllers -->
+    <script src="client/controllers/index.controller.js"></script>
   </body>
   </html>

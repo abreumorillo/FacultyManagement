@@ -26,4 +26,9 @@ class CommonFunction
     {
         return $_GET['action'];
     }
+
+    public static function getValue($value)
+    {
+        return $_GET[$value];
+    }
 }
