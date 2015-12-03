@@ -134,12 +134,15 @@ $data = [
     <script src="client/app.js"></script>
 
     <!-- Services -->
+    <script src="client/Services/common.service.js"></script>
     <script src="client/Services/index.service.js"></script>
+    <script src="client/Services/admin.service.js"></script>
 
     <!-- Directives -->
     <script src="client/directives/common.directive.js"></script>
 
     <!-- Controllers -->
     <script src="client/controllers/index.controller.js"></script>
+    <script src="client/controllers/admin.controller.js"></script>
   </body>
   </html>

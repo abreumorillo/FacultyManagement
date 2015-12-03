@@ -15,7 +15,7 @@
     angular
         .module('frdApp', [
             'ui.router', //Angular module for providing routing functionality.
-            'ngAnimate', //Angular module for animation.
+            'ngAnimate', //Angular module for animation. - https://github.com/theoinglis/ngAnimate.css
             'ngMessages', //Output Error Messages
             'toastr', //Angular module for providing a message functionality -  https://github.com/Foxandxss/angular-toastr
             'underscore', //Javascript library for managing collection of data

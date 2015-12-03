@@ -11,13 +11,13 @@
     function IndexService($http, $q, appConfig) {
         var serviceUrl = appConfig.baseUrl = 'server/controllers/papercontroller.php';
         var service = {
-            searchPaper: searchPaper
+            searchPaper: _searchPaper
         };
         return service;
 
         ////////////////
 
-        function searchPaper(searchTerm, page, itemPerPage) {
+        function _searchPaper(searchTerm, page, itemPerPage) {
             var deferred = $q.defer();
 
             $http({

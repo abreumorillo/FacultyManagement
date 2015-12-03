@@ -1,6 +1,6 @@
 body {
     padding-top: 50px;
-    margin-top: 50px;
+    margin-top: 25px;
     padding-bottom: 20px;
     font-family: 'Open Sans', sans-serif;
 }
@@ -146,7 +146,6 @@ font-family: 'Josefin Slab', serif;
     Created on : Feb 28, 2015, 5:49:24 PM
     Author     : Neris Sandino Abreu
 */
-
 
 .footer {
     position: absolute;
@@ -712,9 +711,27 @@ textarea:focus:-ms-input-placeholder {
 }
 
 #searchWidget h1 {
-    font-size: 4em; important!;
+    font-size: 4em;
+    important!;
 }
 
 .pointer {
     cursor: pointer;
+}
+
+.header-underline {
+    border-bottom: 3px dotted #5FB0E4;
+}
+
+.color-blue {
+    color: #0b83bf;
+}
+
+.panel-default>.panel-heading {
+    background-color: #f7f7f7;
+    border-color: #ddd;
+}
+
+.form-control {
+    height: 42px;
 }

@@ -1,22 +1,21 @@
 <?php
 
-require_once('../../bootstrapper.inc');
+require_once '../../bootstrapper.inc';
 
 use FRD\Common\CommonFunction;
-use FRD\Common\Validation;
-use FRD\DAL\Repositories\PaperRepository;
-use FRD\Model\Paper;
+use FRD\DAL\Repositories\AdminRepository;
 
 $requestMethod = CommonFunction::getRequestMethod();
-$paperRepository = new PaperRepository();
+$adminRepository = new AdminRepository();
 
 switch ($requestMethod) {
     case 'GET':
         switch (CommonFunction::getRequestAction()) {
-            case 'getPapers':
-                // echo json_encode($_GET);
-                $searchTerm = CommonFunction::getValue('searchTerm');
-                echo json_encode($paperRepository->getPapers($searchTerm));
+            case 'getUsers':
+                echo json_encode($adminRepository->getUsers());
+                break;
+            case 'getRoles':
+                echo json_encode($adminRepository->getRoles());
                 break;
         }
 

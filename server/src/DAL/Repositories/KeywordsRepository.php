@@ -12,7 +12,7 @@ class KeywordsRepository extends BaseRepository
 {
     private $keyword;
 
-    function __construct(argument)
+    function __construct()
     {
         parent::__construct();
         $this->keyword = new Keyword();

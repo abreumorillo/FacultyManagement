@@ -5,10 +5,10 @@
         .module('frdApp')
         .controller('IndexController', IndexController);
 
-    IndexController.$inject = ['$scope', 'IndexService', 'appConfig'];
+    IndexController.$inject = ['$scope', 'IndexService', 'appConfig', 'toastr'];
 
     /* @ngInject */
-    function IndexController($scope, IndexService, appConfig) {
+    function IndexController($scope, IndexService, appConfig, toastr) {
         var vm = this;
         vm.title = 'IndexController';
         vm.searchTerm = "";
@@ -18,7 +18,12 @@
         vm.currentPage = 1;
         vm.itemPerPage = 10;
         vm.isSearchResult = false;
-        vm.closeSearch = function  () {
+        vm.papers = [];
+
+        //FUNCTIONS
+        vm.closeSearch = closeSearch;
+
+        vm.closeSearch = function() {
             vm.isSearchResult = false;
         };
 
@@ -32,12 +37,35 @@
 
         function search() {
 
-            IndexService.searchPaper(vm.searchTerm, vm.currentPage, vm.itemPerPage).then(function  (response) {
-                if(response.status === 200) {
+            if (vm.searchTerm.length <= 0) {
+                return;
+            }
+
+            IndexService.searchPaper(vm.searchTerm, vm.currentPage, vm.itemPerPage).then(function(response) {
+
+                if (response.status === 200 && (angular.isObject(response.data)) || angular.isArray(response.data)) {
+                    vm.papers = [];
+
+                    if (angular.isArray(response.data)) {
+                        vm.papers = response.data;
+                    } else {
+                        vm.papers.push(response.data);
+                    }
+
                     vm.isSearchResult = true;
+                    console.log(vm.papers);
+                } else {
+                    toastr.warning("No paper found that maches " + vm.searchTerm);
                 }
-               // console.log(response);
+
+            }, function(errorResponse) {
+                toastr.warning("No paper found that maches " + vm.searchTerm);
             });
+        }
+
+        function closeSearch () {
+            vm.papers = [];
+            vm.isSearchResult = false;
         }
 
         /**
