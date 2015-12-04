@@ -1,12 +1,13 @@
-<div class="row nga-default nga-slide-up" ng-if="vm.isCreatingUser">
+<br>
+<div class="row"> <!-- nga-default nga-slide-up -->
     <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="pull-left">
-                    <h3 class="panel-title"><i clas="fa fa-plus"></i> New User</h3>
+                    <h3 class="panel-title"><i class="fa fa-arrow-left color-blue pointer" ng-click="vm.goBack('userindex')"></i> New User</h3>
                 </div>
                 <div class="pull-right">
-                    <button class="btn btn-xs btn-success" ng-click="vm.goBack('admin')"><i class="fa fa-arrow-left"></i> Back</button>
+                    <button class="btn btn-xs btn-success" ng-click="vm.goBack('admin')" ng-disabled="newUserForm.$dirty"><i class="fa fa-arrow-left"></i> Admin</button>
                 </div>
                 <div class="clearfix"></div>
             </div>

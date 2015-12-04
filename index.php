@@ -94,6 +94,9 @@ $data = [
               <li><a ui-sref="index" ui-sref-active="active">
                 <i class="fa fa-home fa-lg"></i>&nbsp;Home</a>
               </li>
+              <li><a ui-sref="admin" ui-sref-active="active">
+              <i class="fa fa-gear fa-lg"></i>&nbsp;Admin</a>
+              </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li ng-if="!isAuthenticated">
@@ -111,7 +114,7 @@ $data = [
 
     <!-- Main content goes here -->
     <main class="container">
-      <div ui-view="" class="page page-home" ng-cloak class="ng-cloak"></div>
+      <div ui-view="" class="nga-default nga-stagger nga-slide-up" ng-cloak class="ng-cloak"></div>
     </main>
 
     <!-- Libraries -->
@@ -137,6 +140,8 @@ $data = [
     <script src="client/Services/common.service.js"></script>
     <script src="client/Services/index.service.js"></script>
     <script src="client/Services/admin.service.js"></script>
+    <script src="client/Services/login.service.js"></script>
+    <script src="client/Services/user.service.js"></script>
 
     <!-- Directives -->
     <script src="client/directives/common.directive.js"></script>
@@ -145,5 +150,12 @@ $data = [
     <!-- Controllers -->
     <script src="client/controllers/index.controller.js"></script>
     <script src="client/controllers/admin.controller.js"></script>
+    <script src="client/controllers/login.controller.js"></script>
+
+    <!-- user controllers -->
+    <script src="client/controllers/user/index.controller.js"></script>
+    <script src="client/controllers/user/add.controller.js"></script>
+    <script src="client/controllers/user/update.controller.js"></script>
+
   </body>
   </html>

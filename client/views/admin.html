@@ -1,45 +1,43 @@
-<!-- Admin header -->
-<!-- <div class="row">
-    <div class="col-sm-12">
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
-                        <i class="fa fa-gear fa-spin"></i> Administration Area
-                    </a>
-                </div>
-            </div>
-        </nav>
+
+<div class="">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2><i class="fa fa-gears color-blue"></i><span class="header-underline"> Administration Area </span></h2>
+        </div>
     </div>
-</div> -->
-<!-- /end admin header -->
-<div class="row">
-    <div class="col-sm-12">
-        <h3><i class="fa fa-gear fa-spin color-blue"></i><span class="header-underline"> Administration Area </span></h3>
-    </div>
-</div>
-<br>
-<!-- Users -->
-<div class="row nga-default nga-slide-up" ng-if="!vm.isCreatingUser">
-    <div class="col-sm-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="pull-left">
-                    <h3 ng-if="vm.users.length >= 1" class="panel-title"><i class="fa fa-th-list"></i> User {{vm.users.length >1 ? 's': ''}} </h3>
-                    <h3 ng-if="vm.users.length <= 0" class="panel-title text-muted"><i class="fa fa-ban"></i> No existing users</h3>
-                </div>
-                <div class="pull-right">
-                    <button class="btn btn-xs btn-primary" ng-click="vm.createNewUser()"><i class="fa fa-plus"></i> New user</button>
-                </div>
-                <div class="clearfix"></div>
+    <br>
+    <div class="row">
+        <div class="col-sm-4" ui-sref="userindex">
+            <div class="tile purple">
+                <h3 class="title"><i class="fa fa-user fa-2x"></i> User Management</h3>
+                <p>Manage faculty and students</p>
             </div>
-            <div class="panel-body">
-                <div class="col-sm-4 col-sm-offset-4" ng-if="vm.users.length <= 0">
-                    <button class="btn btn-block btn-lg btn-primary" ng-click="vm.createNewUser()"><i class="fa fa-plus"></i> Add New User</button>
-                </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="tile red">
+                <h3 class="title"><i class="fa fa-file-text-o fa-2x"></i> Paper Management</h3>
+                <p>Manage paper</p>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="tile orange">
+                <h3 class="title"><i class="fa fa-key fa-2x"></i> Keywords Management</h3>
+                <p>Manage keywords</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="tile green">
+                <h3 class="title"><i class="fa fa-bar-chart fa-2x"></i> General Statistic</h3>
+                <p>Statistics about papers</p>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="tile blue">
+                <h3 class="title"><i class="fa fa-search fa-2x"></i> Browse Papers</h3>
+                <p>Browse existing papers</p>
             </div>
         </div>
     </div>
 </div>
-<!-- include add new user form from partials -->
-<div ng-include="'/client/views/partials/newuser.html'"></div>

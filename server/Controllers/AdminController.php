@@ -18,13 +18,10 @@ switch ($requestMethod) {
                 echo json_encode($adminRepository->getRoles());
                 break;
         }
-
-        //action, itemPerPage, page, searchTerm
-        //echo json_encode($paperRepository->getAll(['title']));
-        // echo json_encode($paperRepository->getPapers('steve'));
         break;
     case 'POST':
-        echo 'POST';
+        $jsonUserData = json_decode($_POST['data']);
+        echo json_encode($adminRepository->saveUser($jsonUserData));
         break;
     case 'PUT':
         echo 'PUT';

@@ -3,7 +3,7 @@
 namespace FRD\Common;
 
 /**
- * The purpose of this class is to provide functions to validate form fields
+ * The purpose of this class is to provide functions to validate form fields.
  *
  * @author Neris Sandino Abreu.
  */
@@ -22,8 +22,10 @@ class Validation
 
     /**
      * Function to determine if a field has a value.
+     *
      * @param string $field
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isEmpty($field)
     {
@@ -31,10 +33,12 @@ class Validation
     }
 
     /**
-     * Determine if a field has a maximun length
+     * Determine if a field has a maximun length.
+     *
      * @param string $field
-     * @param int $max
-     * @return boolean
+     * @param int    $max
+     *
+     * @return bool
      */
     public static function hasMaximumLength($field, $max)
     {
@@ -43,9 +47,11 @@ class Validation
 
     /**
      * Determine if a field has a minimun length.
+     *
      * @param string $field
-     * @param int $min
-     * @return boolean
+     * @param int    $min
+     *
+     * @return bool
      */
     public static function hasMinumunLength($field, $min)
     {
@@ -69,7 +75,7 @@ class Validation
      */
     public static function isValidAreaCode($value)
     {
-        return is_numeric($value) && strlen($value) ==3;
+        return is_numeric($value) && strlen($value) == 3;
     }
 
     /*
@@ -87,15 +93,16 @@ class Validation
         $errors = array();
         //cast the object to associative array
         if (is_object($data)) {
-            $data = (array)$data;
+            $data = (array) $data;
         }
         // Validations for required fields
         foreach ($requiredFields as $field) {
             $value = trim($data[$field]);
             if (empty($value)) {
-                $errors[$field] = ucfirst($field) . " is required.";
+                $errors[$field] = ucfirst($field).' is required.';
             }
         }
+
         return $errors;
     }
 
@@ -110,8 +117,10 @@ class Validation
     }
 
     /**
-     * Verify an incoming string is valid
+     * Verify an incoming string is valid.
+     *
      * @param $input
+     *
      * @return mixed
      */
     public static function filterString($input)

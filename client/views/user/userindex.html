@@ -1,0 +1,22 @@
+<br>
+<div class="row"> <!-- nga-default nga-slide-up -->
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h3 ng-if="vm.users.length >= 1" class="panel-title"><i class="fa fa-th-list"></i> User {{vm.users.length >1 ? 's': ''}} </h3>
+                    <h3 ng-if="vm.users.length <= 0" class="panel-title text-muted"><i class="fa fa-ban"></i> No existing users</h3>
+                </div>
+                <div class="pull-right">
+                    <button class="btn btn-xs btn-primary" ng-click="vm.addUser()"><i class="fa fa-plus"></i> New user</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-4 col-sm-offset-4" ng-if="vm.users.length <= 0">
+                    <button class="btn btn-block btn-lg btn-primary" ng-click="vm.addUser()"><i class="fa fa-plus"></i> Add New User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

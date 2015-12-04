@@ -49,6 +49,12 @@ class AdminRepository extends BaseRepository
         return Response::notFound();
     }
 
+    public function saveUser($jsonUser)
+    {
+        $jsonUser->newField = "test";
+        return $jsonUser;
+    }
+
     /**
      * Verify is the result from a query is wheather an object or an array, if it is the case
      * then the response would be valid data otherwise not found.

@@ -41,11 +41,29 @@
                         controllerAs: 'vm',
                         templateUrl: "client/views/admin.html"
                     })
-                    .state('register', {
-                        url: '/register',
-                        controller: 'RegisterController',
+                    .state('userindex', {
+                        url: '/userindex',
+                        controller: 'UserIndexController',
                         controllerAs: 'vm',
-                        templateUrl: 'client/views/register.html'
+                        templateUrl: 'client/views/user/userindex.html'
+                    })
+                    .state('useradd', {
+                        url: '/useradd',
+                        controller: 'UserAddController',
+                        controllerAs: 'vm',
+                        templateUrl: 'client/views/user/useradd.html'
+                    })
+                    .state('userupdate', {
+                        url: '/userupdate',
+                        controller: 'UserUpdateController',
+                        controllerAs: 'vm',
+                        templateUrl: 'client/views/user/userupdate.html'
+                    })
+                    .state('login', {
+                        url: '/login',
+                        controller: 'LoginController',
+                        controllerAs: 'vm',
+                        templateUrl: 'client/views/login.html'
                     });
             }
         ])
