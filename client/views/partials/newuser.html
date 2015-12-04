@@ -18,13 +18,27 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="lastname">Last name</label>
-                                        <input type="text" ng-model="vm.user.lastname" class="form-control" id="lastname" name="lastname" placeholder="Last name">
+                                        <input type="text" ng-model="vm.user.lastname" class="form-control" id="lastname" name="lastname" placeholder="Last name" required minlength="4" maxlength="40" ng-focus="lastnameFocus=true" ng-blur="lastnameFocus=false">
+                                        <!-- error message-->
+                                        <div data-ng-messages="newUserForm.lastname.$error" ng-if="vm.isInvalid(newUserForm.lastname) && !lastnameFocus" class="error-messages nga-default nga-rotate-up">
+                                            <span data-ng-message="required">Last Name is required.</span>
+                                            <span data-ng-message="minlength">The minimum length is 4 characters.</span>
+                                            <span data-ng-message="maxlength">The maximum length is 40 characters.</span>
+                                        </div>
+                                        <!--/error message-->
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="firstname" class="control-label">First name</label>
-                                        <input type="text" ng-model="vm.user.firstname" class="form-control" id="firstname" name="firstname" placeholder="First name">
+                                        <input type="text" ng-model="vm.user.firstname" class="form-control" id="firstname" name="firstname" placeholder="First name" required minlength="4" maxlength="40" ng-focus="firstnameFocus=true" ng-blur="firstnameFocus=false">
+                                        <!-- error message-->
+                                        <div data-ng-messages="newUserForm.firstname.$error" ng-if="vm.isInvalid(newUserForm.firstname) && !firstnameFocus" class="error-messages nga-default nga-rotate-up">
+                                            <span data-ng-message="required">First Name is required.</span>
+                                            <span data-ng-message="minlength">The minimum length is 4 characters.</span>
+                                            <span data-ng-message="maxlength">The maximum length is 40 characters.</span>
+                                        </div>
+                                        <!--/error message-->
                                     </div>
                                 </div>
                             </div>
@@ -32,13 +46,25 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="username">Username</label>
-                                        <input type="text" class="form-control" ng-model="vm.user.username" id="username" name="username" placeholder="Last name">
+                                        <input type="text" class="form-control" ng-model="vm.user.username" id="username" name="username" placeholder="Last name" required minlength="4" maxlength="20" ng-focus="usernameFocus=true" ng-blur="usernameFocus=false">
+                                        <!-- error message-->
+                                        <div data-ng-messages="newUserForm.username.$error" ng-if="vm.isInvalid(newUserForm.username) && !usernameFocus" class="error-messages nga-default nga-rotate-up">
+                                            <span data-ng-message="required">Username is required.</span>
+                                            <span data-ng-message="minlength">The minimum length is 4 characters.</span>
+                                            <span data-ng-message="maxlength">The maximum length is 40 characters.</span>
+                                        </div>
+                                        <!--/error message-->
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="email" class="control-label">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                                        <input type="email" class="form-control" id="email" ng-model="vm.user.email" name="email" placeholder="Email" ng-focus="emailFocus = true" ng-blur="emailFocus = false">
+                                        <!-- error message-->
+                                        <div data-ng-messages="newUserForm.email.$error" ng-if="vm.isInvalid(newUserForm.email) && !emailFocus" class="error-messages nga-default nga-rotate-up">
+                                            <span data-ng-message="email">Provive a valid email.</span>
+                                        </div>
+                                        <!--/error message-->
                                     </div>
                                 </div>
                             </div>
@@ -46,19 +72,34 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="password" class="control-label">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="vm.user.password" required minlength="4" maxlength="20" ng-focus="passwordFocus=true" ng-blur="passwordFocus=false">
+                                        <!-- error message-->
+                                        <div data-ng-messages="newUserForm.password.$error" ng-if="vm.isInvalid(newUserForm.password) && !passwordFocus" class="error-messages nga-default nga-rotate-up">
+                                            <span data-ng-message="required">The password is required.</span>
+                                            <span data-ng-message="minlength">The minimum length is 4 characters.</span>
+                                            <span data-ng-message="maxlength">The maximum length is 40 characters.</span>
+                                        </div>
+                                        <!--/error message-->
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="confirmPassword" class="control-label">Confirm password</label>
-                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm password">
+                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" ng-model="vm.user.confirmPassword" required minlength="4" maxlength="20" ng-focus="confirmPasswordFocus=true" ng-blur="confirmPasswordFocus=false" password-confirm match-target="vm.user.password">
+                                        <!-- error message-->
+                                        <div data-ng-messages="newUserForm.confirmPassword.$error" ng-if="vm.isInvalid(newUserForm.confirmPassword) && !confirmPasswordFocus" class="error-messages nga-default nga-rotate-up">
+                                            <span data-ng-message="required">The confirm password is required.</span>
+                                            <span data-ng-message="minlength">The minimum length is 4 characters.</span>
+                                            <span data-ng-message="maxlength">The maximum length is 40 characters.</span>
+                                            <span data-ng-message="match">Password and confirm password must match</span>
+                                        </div>
+                                        <!--/error message-->
                                     </div>
                                 </div>
                             </div>
                             <br>
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
-                            <button type="reset" class="btn btn-warning" ng-click="vm.clearInfo(newUserForm)"><i class="fa fa-refresh"></i> Cancel</button>
+                            <button type="submit" class="btn btn-primary" ng-disabled="newUserForm.$invalid" ng-click="vm.saveUser(newUserForm)"><i class="fa fa-save"></i> Save</button>
+                            <button type="reset" class="btn btn-warning" ng-disabled="newUserForm.$pristine" ng-click="vm.clearInfo(newUserForm)"><i class="fa fa-refresh"></i> Cancel</button>
                         </form>
                     </div>
                 </div>

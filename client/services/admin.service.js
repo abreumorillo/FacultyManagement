@@ -77,5 +77,27 @@
 
             return deferred.promise;
         }
+
+        function saveUser(user) {
+            var deferred = $q.defer();
+            //user.action = "addProduct";
+            var postData = 'data=' + JSON.stringify(user);
+            $http({
+                method: 'POST',
+                url: serviceUrl,
+                data: postData
+            }).success(function(data, status) {
+                deferred.resolve({
+                    data: data,
+                    status: status
+                });
+            }).error(function(data, status) {
+                deferred.reject({
+                    data: data,
+                    status: status
+                });
+            });
+            return deferred.promise;
+        }
     }
 })();

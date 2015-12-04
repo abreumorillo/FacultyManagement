@@ -140,6 +140,7 @@ $data = [
 
     <!-- Directives -->
     <script src="client/directives/common.directive.js"></script>
+    <script src="client/directives/password.directive.js"></script>
 
     <!-- Controllers -->
     <script src="client/controllers/index.controller.js"></script>

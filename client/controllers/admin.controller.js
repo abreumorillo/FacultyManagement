@@ -18,10 +18,12 @@
         vm.isUserAvailable = false;
         vm.isCreatingUser = false;
         vm.goBack = goBack;
+        vm.isInvalid = isInvalid;
 
         //\/\/\/\\/ Functions
         vm.createNewUser = createNewUser;
         vm.clearInfo = clearInfo;
+        vm.saveUser = saveUser;
 
         activate();
 
@@ -92,9 +94,22 @@
             }
         }
 
-        function clearInfo (form) {
-           // vm.user = {};
+        function clearInfo(form) {
+            vm.user = {};
             form.$setPristine();
+        }
+
+        /**
+         * This function is used for validation purpose. It evaluates if a given form element is dirty and invalid
+         * @param formElement
+         * @returns {rd.$dirty|*|dg.$dirty|$dirty|rd.$invalid|b.ctrl.$invalid} boolean
+         */
+        function isInvalid(formElement) {
+            return formElement.$dirty && formElement.$invalid;
+        }
+
+        function saveUser (form) {
+            console.log(form);
             console.log(vm.user);
         }
     }
