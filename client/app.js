@@ -37,9 +37,22 @@
                     })
                     .state('admin', {
                         url: "/admin",
+                        abstract: true,
                         controller: 'AdminController',
                         controllerAs: 'vm',
                         templateUrl: "client/views/admin.html"
+                    })
+                    .state('admin.index', {
+                        url: '/index',
+                        templateUrl: 'client/views/admin.index.html'
+                    })
+                    .state('admin.keyword', {
+                        url: '/keyword',
+                        templateUrl: 'client/views/admin.keyword.html'
+                    })
+                    .state('admin.statistic', {
+                        url: '/statistic',
+                        templateUrl: 'client/views/admin.statistic.html'
                     })
                     .state('userindex', {
                         url: '/userindex',
@@ -86,13 +99,3 @@
     //     AuthService.logOut();
     // }]);
 })();
-//
-// (function() {
-//     angular.module('frdApp', [
-//         'ui.router', //Angular module for providing routing functionality.
-//         'ngAnimate', //Angular module for animation.
-//         'ngMessages', //Output Error Messages
-//         'toastr', //Angular module for providing a message functionality -  https://github.com/Foxandxss/angular-toastr
-
-//     ]);
-// }());

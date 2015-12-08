@@ -70,7 +70,6 @@
         }
 
         function getKeywordLabel(keyword) {
-            console.log(keyword);
             switch (keyword) {
                 case 'course assignment':
                 case 'department management':

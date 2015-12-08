@@ -100,7 +100,7 @@ $data = [
               <li><a ui-sref="index" ui-sref-active="active">
                 <i class="fa fa-home fa-lg"></i>&nbsp;Home</a>
               </li>
-              <li><a ui-sref="admin" ui-sref-active="active">
+              <li><a ui-sref="admin.index" ui-sref-active="active">
               <i class="fa fa-gear fa-lg"></i>&nbsp;Admin</a>
               </li>
             </ul>
