@@ -22,6 +22,7 @@
 
         //FUNCTIONS
         vm.closeSearch = closeSearch;
+        vm.getKeywordLabel = getKeywordLabel;
 
         vm.closeSearch = function() {
             vm.isSearchResult = false;
@@ -63,23 +64,42 @@
             });
         }
 
-        function closeSearch () {
+        function closeSearch() {
             vm.papers = [];
             vm.isSearchResult = false;
         }
 
-        /**
-         * Watch for changes in the searm term and fire a search every x seconds
-         * @param  {string} tmpSearch) {
-         * @return {mix}
-         */
-        // $scope.$watch('vm.searchTerm', function(tmpSearch) {
-        //     if(!tmpSearch || tmpSearch.length === 0) {
-        //         return;
-        //     }
-        //     if(tmpSearch === vm.searchTerm) {
-        //         search();
-        //     }
-        // });
+        function getKeywordLabel(keyword) {
+            console.log(keyword);
+            switch (keyword) {
+                case 'course assignment':
+                case 'department management':
+                case 'faculty':
+                case 'tools':
+                case 'education':
+                case 'IT fluency':
+                    return 'label label-info';
+                case 'Web 2.0':
+                case 'department management':
+                case 'web services':
+                case 'XML':
+                    return 'label label-primary';
+                case 'PHP':
+                case 'C#':
+                case 'Java':
+                    return 'label label-warning';
+                case 'Tomcat':
+                case 'IIS':
+                    return 'label label-danger';
+                case 'database':
+                case 'data mining':
+                case 'informatics':
+                    return 'label label-success';
+                default:
+                    return 'label label-default';
+
+            }
+            //return 'label label-info';
+        }
     }
 })();

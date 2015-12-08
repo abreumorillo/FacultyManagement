@@ -62,6 +62,12 @@ $data = [
   <link href="assets/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/angular-toastr.min.css">
   <link rel="stylesheet" href="assets/css/nga.min.css">
+      <link rel="stylesheet" href="assets/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+        page. However, you can choose any other skin. Make sure you
+        apply the skin class to the body tag so the changes take effect.
+  -->
+    <link rel="stylesheet" href="assets/css/skins/skin-blue.min.css">
   <link href="assets/css/style.css" rel="stylesheet">
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -116,6 +122,7 @@ $data = [
     <main class="container">
       <div ui-view="" class="nga-default nga-stagger nga-slide-up" ng-cloak class="ng-cloak"></div>
     </main>
+
 
     <!-- Libraries -->
     <script src="assets/js/jquery-1.11.3.min.js"></script>
