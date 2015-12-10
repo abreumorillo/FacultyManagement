@@ -67,7 +67,7 @@
                         templateUrl: 'client/views/user/useradd.html'
                     })
                     .state('userupdate', {
-                        url: '/userupdate',
+                        url: '/userupdate/:userId',
                         controller: 'UserUpdateController',
                         controllerAs: 'vm',
                         templateUrl: 'client/views/user/userupdate.html'

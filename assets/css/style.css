@@ -735,6 +735,7 @@ textarea:focus:-ms-input-placeholder {
 
 .form-control {
     height: 42px;
+    border-radius: 4px;
 }
 
 

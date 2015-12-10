@@ -4,15 +4,19 @@ namespace FRD\DAL\Repositories;
 
 use FRD\Common\Response;
 use FRD\DAL\Repositories\base\BaseRepository;
+use FRD\Model\People;
+use FRD\Request\AddUserRequest;
 
 /**
  * Admin Repository.
  */
 class AdminRepository extends BaseRepository
 {
+    private $people;
     public function __construct()
     {
         parent::__construct();
+        $this->people = new People();
     }
 
     /**
@@ -22,7 +26,7 @@ class AdminRepository extends BaseRepository
      */
     public function getUsers()
     {
-        $query = 'SELECT people.firstName, people.lastName, people.email, roles.description ';
+        $query = 'SELECT people.id, people.firstName, people.lastName, people.email, roles.description AS role ';
         $query .= 'FROM people ';
         $query .= 'JOIN roles ON people.roleId = roles.id';
         $users = $this->db->query($query);
@@ -51,8 +55,17 @@ class AdminRepository extends BaseRepository
 
     public function saveUser($jsonUser)
     {
-        $jsonUser->newField = "test";
-        return $jsonUser;
+        $userRequest = new AddUserRequest();
+        $userData = $userRequest->validate($jsonUser);
+        if (!$userData) {
+            return Response::validationError($userRequest->getErrors());
+        } else {
+            $response = $this->people->post($userData);
+            if ($response) {
+                return Response::created($response);
+            }
+            return Response::serverError($response, $this->db->getLastError());
+        }
     }
 
     /**

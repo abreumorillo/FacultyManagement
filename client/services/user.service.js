@@ -9,7 +9,7 @@
 
     /* @ngInject */
     function UserService($http, $q, appConfig) {
-        var serviceUrl = appConfig.baseUrl = 'server/controllers/admincontroller.php';
+        var serviceUrl = appConfig.baseUrl = 'server/controllers/UserManagementController.php';
         var service = {
             getUsers: _getUsers,
             getRoles: _getRoles,

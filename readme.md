@@ -123,3 +123,6 @@ In order to provide a sketch of the user interface we can use this resource http
 5. Allow faculty to view details of published papers
 6. Login functionality for student
 7. Aministration area for creating Faculty | students | keywords (TBD)
+
+##Special Status Code
+1. 422 for  validation erro

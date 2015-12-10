@@ -22,7 +22,11 @@
         ////////////////
 
         function activate() {
-            console.log('AdminController');
+
+        }
+
+        function function_name (argument) {
+            // body...
         }
 
     }

@@ -5,15 +5,16 @@
         .module('frdApp')
         .controller('UserAddController', UserAddController);
 
-    UserAddController.$inject = ['UserService', '$state'];
+    UserAddController.$inject = ['UserService', '$state', 'CommonService', 'toastr'];
 
     /* @ngInject */
-    function UserAddController(UserService, $state) {
+    function UserAddController(UserService, $state, CommonService, toastr) {
         var vm = this;
 
         //\/\/\/\\/ Public members /\//\/\\
-        vm.newUser = {};
+        vm.user = {};
         vm.roles = [];
+        vm.errors = [];
         vm.isCreatingUser = false;
 
         //\/\/\/\\/ Functions
@@ -26,7 +27,7 @@
         ////////////////
 
         function activate() {
-            console.log('UserAddController');
+            getRoles();
         }
 
         /**
@@ -39,13 +40,23 @@
         }
 
         function saveUser(form) {
-            console.log(form);
-            console.log(vm.user);
-            return;
             UserService.saveUser(vm.user).then(function(successResponse) {
-                console.log(successResponse);
+                if(successResponse.status === 201){
+                    vm.user={};
+                    form.$setPristine();
+                    $state.go('userindex');
+                }
             }, function(errorResponse) {
-                console.log(errorResponse);
+                if (errorResponse.status === 422) { //server side validation error
+                    vm.errors = errorResponse.data;
+                    var msg = "";
+                    angular.forEach(vm.errors, function(data) {
+                        msg += data + '<br>';
+                    });
+                    toastr.error(msg, 'Validation Error');
+                } else {
+                    toastr.error('An error has occurred while processing the data');
+                }
             });
         }
         /**
@@ -60,6 +71,18 @@
         function clearInfo(form) {
             vm.user = {};
             form.$setPristine();
+        }
+
+        function getRoles() {
+            UserService.getRoles().then(function(successResponse) {
+                if (successResponse.status === 200) {
+                    vm.roles = successResponse.data;
+                }
+            }, handleErrorResponse);
+        }
+
+        function handleErrorResponse(error) {
+            console.log(error);
         }
     }
 })();

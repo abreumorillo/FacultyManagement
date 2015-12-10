@@ -114,12 +114,12 @@ abstract class DbModel implements DbModelInterface
         if (!CommonFunction::isAssociativeArray($data)) {
             throw new NotAssociativeArrayException("This function expect an associative array");
         }
-        $fields = $this->getFields($data, 'id');
-        $paramasAndPlaceHolder = $this->getParamsAndPlaceHolders($data, true);
+        $fields = $this->getFields($data);
+        $paramasAndPlaceHolder = $this->getParamsAndPlaceHolders($data);
         $query = "INSERT INTO ".$this->tableName. " (". $fields." ) VALUES (". $paramasAndPlaceHolder['placeholders'] .")";
 
         if ($this->db->noSelect($query, $paramasAndPlaceHolder['params'])) {
-            return $this->lastInsertedId;
+            return $this->db->getInsertId();
         }
         return 0;
     }
