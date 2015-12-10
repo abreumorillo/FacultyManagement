@@ -49,6 +49,20 @@
             return deferred.promise;
         }
 
+        function getById (userId) { //getUserById
+            var deferred = $q.defer();
+            $http({
+                method: 'GET',
+                url: serviceUrl,
+                params: { action: 'getUserById', userId: userId}
+            }).success(function  (data, status) {
+                deferred.resolve({data: data, status: status});
+            }).error(function  (error, status) {
+                deferred.reject({error: error, status: status});
+            });
+            return deferred.promise;
+        }
+
         /**
          * Get the roles
          * @return {promise}

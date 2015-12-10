@@ -14,6 +14,10 @@ switch ($requestMethod) {
             case 'getUsers':
                 echo json_encode($adminRepository->getUsers());
                 break;
+            case 'getUserById':
+                $userId = CommonFunction::getValue('userId');
+                echo json_encode($adminRepository->getUserById($userId));
+                break;
             case 'getRoles':
                 echo json_encode($adminRepository->getRoles());
                 break;

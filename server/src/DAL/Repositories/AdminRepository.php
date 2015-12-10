@@ -37,6 +37,11 @@ class AdminRepository extends BaseRepository
         return Response::notFound();
     }
 
+    public function getUserById($userId)
+    {
+        return $this->people->getById($userId);
+    }
+
     /**
      * Get all the available roles from the database.
      *

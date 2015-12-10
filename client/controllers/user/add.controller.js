@@ -59,6 +59,7 @@
                 }
             });
         }
+
         /**
          * Go back to a particular state
          * @param  {string} url area to navigate

@@ -36,7 +36,6 @@
                     vm.users = [];
                     vm.users = CommonService.getResponse(response);
                     vm.isUserAvailable = true;
-                    console.log(vm.users);
                 }
             }, function(errorResponse) {
                 vm.isUserAvailable = false;
@@ -58,8 +57,6 @@
                     return 'label label-warning';
             }
         }
-        vm.test = function  (index) {
-            console.log('idx', index);
-        };
+
     }
 })();
