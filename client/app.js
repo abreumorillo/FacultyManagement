@@ -19,8 +19,10 @@
             'ngMessages', //Output Error Messages
             'toastr', //Angular module for providing a message functionality -  https://github.com/Foxandxss/angular-toastr
             'underscore', //Javascript library for managing collection of data
-            'angular-loading-bar' //Display loading bar when XHR request are fired
-            // 'ui.bootstrap.pagination' //Bootstrap component for pagination
+            //'angular-loading-bar', //Display loading bar when XHR request are fired
+            'ui.bootstrap.pagination', //Bootstrap component for pagination
+            'ui.bootstrap.popover',
+            'ui.bootstrap.modal'
         ]) //APPLICATION ROUTES
         .config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
             function($stateProvider, $urlRouterProvider, $locationProvider) {

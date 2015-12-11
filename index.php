@@ -127,7 +127,7 @@ $data = [
     <!-- Libraries -->
     <script src="assets/js/jquery-1.11.3.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/angular.js"></script>
     <script src="assets/js/angular-cookies.min.js"></script>
     <script src="assets/js/angular-animate.min.js"></script>
     <script src="assets/js/angular-sanitize.min.js"></script>
@@ -135,10 +135,11 @@ $data = [
     <script src="assets/js/angular-messages.min.js"></script>
     <script src="assets/js/angular-aria.min.js"></script>
     <script src="assets/js/angular-toastr.tpls.min.js"></script>
-    <script src="assets/js/loading-bar.min.js"></script>
     <script src="assets/js/angular-ui-router.min.js"></script>
     <script src="assets/js/underscore-min.js"></script>
     <script src="assets/js/angular-underscore-module.js"></script>
+    <script src="assets/js/ui-bootstrap-custom-0.14.3.min.js"></script>
+    <script src="assets/js/ui-bootstrap-custom-tpls-0.14.3.min.js"></script>
 
     <!-- Custom scritps -->
     <script src="client/app.js"></script>

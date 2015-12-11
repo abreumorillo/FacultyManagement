@@ -25,12 +25,17 @@ switch ($requestMethod) {
         break;
     case 'POST':
         $jsonUserData = json_decode($_POST['data']);
-        echo json_encode($adminRepository->saveUser($jsonUserData));
-        break;
-    case 'PUT':
-        echo 'PUT';
+        switch ($jsonUserData->action) {
+            case 'insert':
+                echo json_encode($adminRepository->saveUser($jsonUserData));
+                break;
+            case 'update':
+                echo json_encode($adminRepository->updateUser($jsonUserData));
+                break;
+        }
         break;
     case 'DELETE':
-        echo 'DELETE';
+        $userId = CommonFunction::getValue('userId');
+        echo json_encode($adminRepository->deleteUser($userId));
         break;
 }

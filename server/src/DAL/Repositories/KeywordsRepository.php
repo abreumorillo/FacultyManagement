@@ -12,11 +12,32 @@ class KeywordsRepository extends BaseRepository
 {
     private $keyword;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->keyword = new Keyword();
-
     }
 
+    public function getAll()
+    {
+        return $this->keyword->getAll();
+    }
+
+    public function getById($id)
+    {
+        return $this->keyword->getById($id);
+    }
+
+    /**
+     * Delete a keyworkd form the database
+     * @param  int $keywordId
+     * @return mix
+     */
+    public function delete($keywordId)
+    {
+        if ($this->keyword->delete(['id'=> $keywordId])) {
+            return Response::noContent();
+        }
+        return Response::serverError([], $this->db->getLastError());
+    }
 }

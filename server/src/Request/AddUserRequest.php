@@ -10,6 +10,7 @@ use FRD\Request\UserRequest;
  */
 class AddUserRequest extends UserRequest
 {
+    protected $isInsert = true;
 
     public function validate($jsonData)
     {

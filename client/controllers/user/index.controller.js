@@ -5,10 +5,10 @@
         .module('frdApp')
         .controller('UserIndexController', UserIndexController);
 
-    UserIndexController.$inject = ['UserService', 'CommonService', '$state'];
+    UserIndexController.$inject = ['UserService', 'CommonService', '$state', '$uibModal', 'toastr'];
 
     /* @ngInject */
-    function UserIndexController(UserService, CommonService, $state) {
+    function UserIndexController(UserService, CommonService, $state, $uibModal, toastr) {
         var vm = this;
 
         //\/\/\/\\/ Public members /\//\/\\
@@ -17,11 +17,15 @@
         //\/\/\/\\/ Functions
         vm.addUser = addUser;
         vm.getRoleLabel = getRoleLabel;
+        vm.removeUser = removeUser;
 
         activate();
 
         ////////////////
-
+        /**
+         * Activate the controller
+         * @return {mix}
+         */
         function activate() {
             getUsers();
         }
@@ -42,11 +46,18 @@
                 console.log(errorResponse);
             });
         }
-
+        /**
+         * Redirect to the add user page
+         */
         function addUser() {
             $state.go('useradd');
         }
 
+        /**
+         * The custom label for the role
+         * @param  {role} role user role
+         * @return {string}      label css classes
+         */
         function getRoleLabel(role) {
             switch (role) {
                 case 'Admin':
@@ -56,6 +67,50 @@
                 case 'Student':
                     return 'label label-warning';
             }
+        }
+
+        /**
+         * Remove an existing user from the database
+         * @param  {int} userId
+         * @return {mix}
+         */
+        function removeUser(user) {
+            var modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: 'static',
+                templateUrl: 'client/views/modals/delete-user.html',
+                controller: function($scope, $uibModalInstance, User) {
+                    $scope.user = User;
+                    $scope.ok = function() {
+                        $uibModalInstance.close();
+                    };
+                    $scope.cancel = function() {
+                        $uibModalInstance.dismiss('cancel');
+                    };
+                },
+                size: 'xs',
+                resolve: {
+                    User: function() {
+                        return user;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function() {
+                UserService.deleteUser(user.id).then(function(successResponse) {
+                    if (successResponse.status === 204) {
+                        toastr.success('The user has been deleted successfully');
+                        var idx = vm.users.indexOf(user);
+                        if (idx !== -1) {
+                            vm.users.splice(idx, 1);
+                        }
+                    }
+                }, function() {
+                    toastr.error('An error has occurred while trying to delete the user');
+                });
+            }, function() {
+                console.log('Modal dismissed at: ' + new Date());
+            });
         }
 
     }

@@ -14,6 +14,7 @@ abstract class UserRequest
      * @var array
      */
     protected $userData = [];
+    protected $isInsert = false;
 
     /**
      * Array containing the array of error if any validation error.
@@ -49,18 +50,19 @@ abstract class UserRequest
         } else {
             $this->validationErrors[] = 'The username is required';
         }
-
-        //password
-        if (isset($jsonData->password) && !Validation::isEmpty($jsonData->password)) {
-            $this->userData['password'] = hash('md5', Validation::filterString($jsonData->password));
-        } else {
-            $this->validationErrors[] = 'The password is required';
-        }
+        if ($this->isInsert || isset($jsonData->password)) {
+            //password
+            if (isset($jsonData->password) && !Validation::isEmpty($jsonData->password)) {
+                $this->userData['password'] = hash('md5', Validation::filterString($jsonData->password));
+            } else {
+                $this->validationErrors[] = 'The password is required';
+            }
 
         //Confirm password
-        if (isset($jsonData->confirmPassword) && !Validation::isEmpty($jsonData->confirmPassword)) {
-            if ($jsonData->confirmPassword !== $jsonData->password) {
-                $this->validationErrors[] = 'Password and confirm password must match';
+            if (isset($jsonData->confirmPassword) && !Validation::isEmpty($jsonData->confirmPassword)) {
+                if ($jsonData->confirmPassword !== $jsonData->password) {
+                    $this->validationErrors[] = 'Password and confirm password must match';
+                }
             }
         }
 

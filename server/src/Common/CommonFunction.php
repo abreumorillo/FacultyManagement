@@ -27,8 +27,13 @@ class CommonFunction
         return $_GET['action'];
     }
 
+    /**
+     * Get value from the $_GET super global
+     * @param  key $value
+     * @return string
+     */
     public static function getValue($value)
     {
-        return $_GET[$value];
+        return  htmlspecialchars($_GET[$value]); //TODO: sanitize
     }
 }
