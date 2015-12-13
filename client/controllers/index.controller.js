@@ -5,10 +5,10 @@
         .module('frdApp')
         .controller('IndexController', IndexController);
 
-    IndexController.$inject = ['$scope', 'IndexService', 'appConfig', 'toastr'];
+    IndexController.$inject = ['$scope', 'IndexService','CommonService', 'toastr'];
 
     /* @ngInject */
-    function IndexController($scope, IndexService, appConfig, toastr) {
+    function IndexController($scope, IndexService, CommonService, toastr) {
         var vm = this;
         vm.title = 'IndexController';
         vm.searchTerm = "";
@@ -19,6 +19,7 @@
         vm.itemPerPage = 10;
         vm.isSearchResult = false;
         vm.papers = [];
+        vm.isSearching = false;
 
         //FUNCTIONS
         vm.closeSearch = closeSearch;
@@ -33,26 +34,28 @@
         ////////////////
 
         function activate() {
-            console.log('Index Controller Activated');
+            // toastr.info('Index Controller Activated');
         }
 
+        /**
+         * Execute the search
+         * @return {array}
+         */
         function search() {
 
             if (vm.searchTerm.length <= 0) {
                 return;
             }
-
+            vm.isSearching = true;
             IndexService.searchPaper(vm.searchTerm, vm.currentPage, vm.itemPerPage).then(function(response) {
-
-                if (response.status === 200 && (angular.isObject(response.data)) || angular.isArray(response.data)) {
+                vm.isSearching = false;
+                if(response.status === CommonService.statusCode.HTTP_NO_CONTENT) {
+                    toastr.info('No paper in the database');
                     vm.papers = [];
-
-                    if (angular.isArray(response.data)) {
-                        vm.papers = response.data;
-                    } else {
-                        vm.papers.push(response.data);
-                    }
-
+                }
+                if (CommonService.isValidResponse(response)) {
+                    vm.papers = [];
+                    vm.papers = CommonService.getResponse(response);
                     vm.isSearchResult = true;
                     console.log(vm.papers);
                 } else {
@@ -61,14 +64,24 @@
 
             }, function(errorResponse) {
                 toastr.warning("No paper found that maches " + vm.searchTerm);
+                vm.isSearching = false;
             });
         }
 
+        /**
+         * Close a search
+         * @return {[type]} [description]
+         */
         function closeSearch() {
             vm.papers = [];
             vm.isSearchResult = false;
         }
 
+        /**
+         * Get label for the keywords
+         * @param  {string} keyword
+         * @return {bootstrap class}
+         */
         function getKeywordLabel(keyword) {
             switch (keyword) {
                 case 'course assignment':

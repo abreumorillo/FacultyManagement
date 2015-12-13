@@ -38,6 +38,24 @@ class AdminRepository extends BaseRepository
         return Response::notFound();
     }
 
+    /**
+     * Get Faculty list for dropdown
+     * @return array [description]
+     */
+    public function getFacultiesList()
+    {//CONCAT_WS(" ", people.lastName, people.firstName)
+        $query  = "SELECT people.id, CONCAT_WS(' ', people.lastName, people.firstName) AS name  ";
+        $query .= "FROM people ";
+        $query .= "JOIN roles ON people.roleId = roles.id ";
+        $query .= "WHERE roles.description = 'Faculty'";
+        return  $this->db->query($query);
+    // $query = 'SELECT people.id, people.firstName, people.lastName, people.email, people.username, roles.description AS role ';
+    // $query .= 'FROM people ';
+    // $query .= 'JOIN roles ON people.roleId = roles.id';
+    // $users = $this->db->query($query);
+    // return $users;
+    }
+
     public function getUserById($userId)
     {
         $fields = ['id', 'lastName', 'firstName', 'email','username', 'roleId'];
@@ -56,7 +74,6 @@ class AdminRepository extends BaseRepository
         if ($this->isValidResponse($roles)) {
             return $roles;
         }
-
         return Response::notFound();
     }
 

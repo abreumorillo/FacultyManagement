@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <h3 class="modal-title" ng-if="!keyword.id"><i class="fa fa-plus text-blue"></i> New Keyword</h3>
+    <h3 class="modal-title" ng-if="keyword.id"><i class="fa fa-edit text-info"></i> Updates Keyword</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12">
+            <form name="keywordForm">
+                <div class="col-xs-8">
+                    <div class="form-group" ng-class="{'has-error': (keywordForm.description.$dirty && keywordForm.description.$invalid) && !descriptionFocus}">
+                        <label for="description " class="control-label">Keyword</label>
+                        <input type="text" class="form-control" id="description" name="description" required minlength="2" maxlength="25" ng-model="keyword.description" placeholder="Keyword" ng-focus="descriptionFocus=true" ng-blur="descriptionFocus=false">
+                        <!-- error message-->
+                        <div data-ng-messages="keywordForm.description.$error" ng-if="(keywordForm.description.$dirty && keywordForm.description.$invalid) && !descriptionFocus" class="error-messages nga-default nga-rotate-up">
+                            <span data-ng-message="required">The keyword desciption is required.</span>
+                            <span data-ng-message="minlength">The minimum length is 4 characters.</span>
+                            <span data-ng-message="maxlength">The maximum length is 40 characters.</span>
+                        </div>
+                        <!--/error message-->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-disabled="keywordForm.$invalid" ng-click="ok()"><i class="fa fa-save"></i> Save</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()"><i class="fa fa-ban"></i> Cancel</button>
+</div>

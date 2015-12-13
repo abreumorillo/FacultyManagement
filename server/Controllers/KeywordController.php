@@ -1,11 +1,19 @@
 <?php
 require_once('../../bootstrapper.inc');
 
+function exception_handler($exception)
+{
+    http_response_code(500);
+    echo  "Uncaught exception: " , $exception->getMessage(), "\n";
+}
+
+set_exception_handler('exception_handler');
+
 use FRD\Common\CommonFunction;
-use FRD\DAL\Repositories\KeywordsRepository;
+use FRD\DAL\Repositories\KeywordRepository;
 
-$keywordRepository = new KeywordsRepository();
-
+$keywordRepository = new KeywordRepository();
+$requestMethod = CommonFunction::getRequestMethod();
 switch ($requestMethod) {
     case 'GET':
         switch (CommonFunction::getRequestAction()) {
@@ -23,10 +31,10 @@ switch ($requestMethod) {
         $jsonData = json_decode($_POST['data']);
         switch ($jsonData->action) {
             case 'insert':
-                //echo json_encode($adminRepository->saveUser($jsonData));
+                echo json_encode($keywordRepository->insert($jsonData));
                 break;
             case 'update':
-                //echo json_encode($adminRepository->updateUser($jsonData));
+                echo json_encode($keywordRepository->update($jsonData));
                 break;
         }
         break;

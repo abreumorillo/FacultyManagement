@@ -13,6 +13,7 @@
 
         //\/\/\/\\/ Public members /\//\/\\
         vm.users = [];
+        vm.isLoaded = false;
 
         //\/\/\/\\/ Functions
         vm.addUser = addUser;
@@ -98,7 +99,7 @@
 
             modalInstance.result.then(function() {
                 UserService.deleteUser(user.id).then(function(successResponse) {
-                    if (successResponse.status === 204) {
+                    if (successResponse.status === CommonService.statusCode.HTTP_NO_CONTENT) {
                         toastr.success('The user has been deleted successfully');
                         var idx = vm.users.indexOf(user);
                         if (idx !== -1) {

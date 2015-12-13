@@ -21,6 +21,8 @@ switch ($requestMethod) {
             case 'getRoles':
                 echo json_encode($adminRepository->getRoles());
                 break;
+            case 'getFacultiesList':
+                echo json_encode($adminRepository->getFacultiesList());
         }
         break;
     case 'POST':

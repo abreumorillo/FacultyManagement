@@ -46,7 +46,7 @@
         }
 
         function handleErrorResponse(error) {
-            toastr.error('An error has occurred', error.status);
+            toastr.error('An error has occurred', "Code: " + error.status);
         }
 
         function cancelUpdate(form) {
@@ -77,9 +77,9 @@
          * @param  {[type]} form [description]
          * @return {[type]}      [description]
          */
-        function update (form) {
-            UserService.updateUser(vm.user).then(function  (successResponse) {
-                if(successResponse.status === 204) {
+        function update(form) {
+            UserService.updateUser(vm.user).then(function(successResponse) {
+                if (successResponse.status === 204) {
                     form.$setPristine();
                     toastr.success('User updated successfully');
                     $state.go('userindex');

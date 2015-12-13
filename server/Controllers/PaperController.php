@@ -18,6 +18,9 @@ switch ($requestMethod) {
                 $searchTerm = CommonFunction::getValue('searchTerm');
                 echo json_encode($paperRepository->getPapers($searchTerm));
                 break;
+            case 'count':
+                $searchTerm = CommonFunction::getValue('searchTerm');
+                echo json_encode($paperRepository->count($searchTerm));
         }
 
         //action, itemPerPage, page, searchTerm

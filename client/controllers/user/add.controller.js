@@ -83,7 +83,7 @@
         }
 
         function handleErrorResponse(error) {
-            console.log(error);
+            toastr.error('An error has occurred', "Code: "+ error.status);
         }
     }
 })();

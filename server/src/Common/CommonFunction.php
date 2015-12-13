@@ -36,4 +36,17 @@ class CommonFunction
     {
         return  htmlspecialchars($_GET[$value]); //TODO: sanitize
     }
+
+    /**
+     * Verify is the result from a query is wheather an object or an array, if it is the case
+     * then the response would be valid data otherwise not found.
+     *
+     * @param mix $input input data
+     *
+     * @return bool
+     */
+    public static function isValidResponse($input)
+    {
+        return (is_array($input) && count($input) > 0) || is_object($input);
+    }
 }

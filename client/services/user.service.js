@@ -16,7 +16,8 @@
             saveUser: _saveUser,
             getById: _getById,
             deleteUser: _deleteUser,
-            updateUser: _updateUser
+            updateUser: _updateUser,
+            getFacultiesList: _getFacultiesList
         };
         return service;
 
@@ -172,6 +173,28 @@
                 url: serviceUrl,
                 params: {
                     userId: userId
+                }
+            }).success(function(data, status) {
+                deferred.resolve({
+                    data: data,
+                    status: status
+                });
+            }).error(function(error, status) {
+                deferred.reject({
+                    error: error,
+                    status: status
+                });
+            });
+            return deferred.promise;
+        }
+
+        function _getFacultiesList() {
+            var deferred = $q.defer();
+            $http({
+                method: 'GET',
+                url: serviceUrl,
+                params: {
+                    action: 'getFacultiesList'
                 }
             }).success(function(data, status) {
                 deferred.resolve({

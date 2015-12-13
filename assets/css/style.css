@@ -855,3 +855,14 @@ strong {
 .tile.orange:hover {
     background: #b8431f;
 }
+
+/*chosen plugin custom style*/
+.chosen-container {
+  font-size: 14px;
+}
+
+.chosen-container-single .chosen-single {
+  height: 32px;
+}
+
+

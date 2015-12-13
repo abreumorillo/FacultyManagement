@@ -62,12 +62,13 @@ $data = [
   <link href="assets/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/angular-toastr.min.css">
   <link rel="stylesheet" href="assets/css/nga.min.css">
-      <link rel="stylesheet" href="assets/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="assets/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect.
   -->
-    <link rel="stylesheet" href="assets/css/skins/skin-blue.min.css">
+  <link rel="stylesheet" href="assets/css/chosen.css">
+  <link rel="stylesheet" href="assets/css/skins/skin-blue.min.css">
   <link href="assets/css/style.css" rel="stylesheet">
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -143,6 +144,7 @@ $data = [
 
     <!-- Custom scritps -->
     <script src="client/app.js"></script>
+    <script src="client/app.route.js"></script>
 
     <!-- Services -->
     <script src="client/Services/common.service.js"></script>
@@ -150,6 +152,8 @@ $data = [
     <script src="client/Services/admin.service.js"></script>
     <script src="client/Services/login.service.js"></script>
     <script src="client/Services/user.service.js"></script>
+    <script src="client/Services/keyword.service.js"></script>
+    <script src="client/Services/paper.service.js"></script>
 
     <!-- Directives -->
     <script src="client/directives/common.directive.js"></script>
@@ -159,11 +163,16 @@ $data = [
     <script src="client/controllers/index.controller.js"></script>
     <script src="client/controllers/admin.controller.js"></script>
     <script src="client/controllers/login.controller.js"></script>
+    <script src="client/controllers/keyword.controller.js"></script>
 
     <!-- user controllers -->
     <script src="client/controllers/user/index.controller.js"></script>
     <script src="client/controllers/user/add.controller.js"></script>
     <script src="client/controllers/user/update.controller.js"></script>
+
+    <!-- paper controller -->
+    <script src="client/controllers/paper/index.controller.js"></script>
+    <script src="client/controllers/paper/add.controller.js"></script>
 
   </body>
   </html>

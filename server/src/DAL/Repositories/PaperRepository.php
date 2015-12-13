@@ -19,9 +19,25 @@ class PaperRepository extends BaseRepository
         parent::__construct();
     }
 
-    public function count()
+    public function count($searchTerm = null)
     {
-        return $this->paper->count();
+        if (!$searchTerm || empty($searchTerm)) {
+            return intval($this->paper->count());
+        }else {
+            $query  = "SELECT COUNT(*) as count ";
+            $query .= 'FROM papers ';
+            $query .= 'JOIN authorship ON papers.id = authorship.paperId ';
+            $query .= 'JOIN people ON authorship.facultyId = people.id ';
+            $query .= 'WHERE papers.title like ? OR people.firstName like ?  OR people.lastName like ? ';
+
+            $searchTerm = '%'.$searchTerm.'%';
+            $params = array($searchTerm, $searchTerm, $searchTerm);
+            $result = $this->db->query($query, $params);
+            if($result) {
+                return  $result->count;
+            }
+            return 0;
+        }
     }
 
     public function getPapers($searchTerm, $page = 1, $itemPerPage = 10)

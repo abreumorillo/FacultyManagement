@@ -13,5 +13,5 @@ class Keyword extends DbModel
      * Table name
      * @var [type]
      */
-    protected $tableName;
+    protected $tableName = 'keywords';
 }

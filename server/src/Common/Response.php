@@ -7,11 +7,19 @@ namespace FRD\Common;
  */
 class Response
 {
+    /**
+     * Not Found http status code
+     * @return [type] [description]
+     */
     public static function notFound()
     {
         return http_response_code(404);
     }
 
+    /**
+     * Not content HTTP status code
+     * @return int
+     */
     public static function noContent()
     {
         return http_response_code(204);
@@ -34,6 +42,11 @@ class Response
         return $response;
     }
 
+    /**
+     * For internal validation erro
+     * @param  array $data
+     * @return mix
+     */
     public static function validationError($data)
     {
         http_response_code(422); //Validation error
