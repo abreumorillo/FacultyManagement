@@ -56,7 +56,7 @@
                 method: 'GET',
                 url: serviceUrl,
                 params: {
-                    action: 'getAll', keywordId: keywordId
+                    action: 'getById', keywordId: keywordId
                 }
             }).success(function(data, status) {
                 deferred.resolve({

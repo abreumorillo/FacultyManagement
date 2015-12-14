@@ -173,6 +173,7 @@ $data = [
     <!-- paper controller -->
     <script src="client/controllers/paper/index.controller.js"></script>
     <script src="client/controllers/paper/add.controller.js"></script>
+    <script src="client/controllers/paper/update.controller.js"></script>
 
   </body>
   </html>

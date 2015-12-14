@@ -16,14 +16,14 @@
         //Pagination options
         vm.totalItems = 0;
         vm.currentPage = 1;
-        vm.itemPerPage = 10;
+        vm.itemPerPage = 2;
         vm.isSearchResult = false;
         vm.papers = [];
         vm.isSearching = false;
 
         //FUNCTIONS
         vm.closeSearch = closeSearch;
-        vm.getKeywordLabel = getKeywordLabel;
+        vm.getKeywordLabel = CommonService.getKeywordLabel;
 
         vm.closeSearch = function() {
             vm.isSearchResult = false;
@@ -77,41 +77,5 @@
             vm.isSearchResult = false;
         }
 
-        /**
-         * Get label for the keywords
-         * @param  {string} keyword
-         * @return {bootstrap class}
-         */
-        function getKeywordLabel(keyword) {
-            switch (keyword) {
-                case 'course assignment':
-                case 'department management':
-                case 'faculty':
-                case 'tools':
-                case 'education':
-                case 'IT fluency':
-                    return 'label label-info';
-                case 'Web 2.0':
-                case 'department management':
-                case 'web services':
-                case 'XML':
-                    return 'label label-primary';
-                case 'PHP':
-                case 'C#':
-                case 'Java':
-                    return 'label label-warning';
-                case 'Tomcat':
-                case 'IIS':
-                    return 'label label-danger';
-                case 'database':
-                case 'data mining':
-                case 'informatics':
-                    return 'label label-success';
-                default:
-                    return 'label label-default';
-
-            }
-            //return 'label label-info';
-        }
     }
 })();

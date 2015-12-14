@@ -865,4 +865,6 @@ strong {
   height: 32px;
 }
 
-
+.pagination {
+    margin: 0;
+}

@@ -68,7 +68,7 @@
                                 <div class="col-xs-12">
                                     <div class="form-group" ng-class="{'has-error': vm.isInvalid(paperAddForm.citation) && !citationFocus}">
                                         <label for="citation" class="control-label">Citation</label>
-                                        <input type="text" class="form-control" id="citation" name="citation" placeholder="Paper citation" ng-model="vm.paper.citation" minlength="4" maxlength="75" ng-focus="citationFocus=true" ng-blur="citationFocus=false">
+                                        <input type="text" required class="form-control" id="citation" name="citation" placeholder="Paper citation" ng-model="vm.paper.citation" minlength="4" maxlength="75" ng-focus="citationFocus=true" ng-blur="citationFocus=false">
                                         <small class="help-block">Enter comma-separated citation</small>
                                         <!-- error message-->
                                         <div data-ng-messages="paperAddForm.citation.$error" ng-if="vm.isInvalid(paperAddForm.citation) && !citationFocus" class="error-messages nga-default nga-rotate-up">

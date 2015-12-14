@@ -16,11 +16,12 @@
         vm.papers = [];
         vm.isSearching = false;
         vm.searchTerm = "";
+        vm.isLoaded = false;
 
         //Pagination options
         vm.totalItems = 0;
         vm.currentPage = 1;
-        vm.itemPerPage = 10;
+        vm.itemPerPage = 5;
         vm.isPaging = false;
 
 
@@ -28,6 +29,9 @@
         vm.search = search;
         vm.paginate = paginate;
         vm.pageChanged = pageChanged;
+        vm.getKeywordLabel = CommonService.getKeywordLabel;
+        vm.remove = remove;
+
         activate();
 
 
@@ -51,7 +55,7 @@
          */
         function search() {
             vm.isSearching = true;
-            get(vm.searchTerm, vm.currentPage, vm.itemPerPage).then(function() {
+            get(vm.searchTerm).then(function() {
                 vm.isSearching = false;
             });
         }
@@ -64,8 +68,10 @@
         function get(searchTerm) {
             searchTerm = searchTerm || '*';
             return PaperService.getPaper(searchTerm, vm.currentPage, vm.itemPerPage).then(function(successResponse) {
-                vm.papers = [];
-                console.log(successResponse);
+                if (CommonService.isValidResponse(successResponse)) {
+                    vm.papers = CommonService.getResponse(successResponse);
+                }
+                vm.isLoaded = true;
             }, handleErrorResponse);
         }
 
@@ -75,7 +81,9 @@
          * @return {mix}
          */
         function handleErrorResponse(errorResponse) {
-            console.log('error: ', errorResponse);
+            console.log(errorResponse);
+            toastr.error('An error has occurred', "Code: "+errorResponse.status);
+            vm.isLoaded = true;
         }
 
         /***
@@ -86,9 +94,6 @@
             get(vm.searchTerm, vm.currentPage, vm.itemPerPage).then(function() {
                 vm.isPaging = false;
             });
-            // $timeout(function() {
-            //     vm.isPaging = false;
-            // }, 600);
         }
 
         function paginate(value) {
@@ -109,6 +114,10 @@
                     vm.totalItems = parseInt(successResponse.data);
                 }
             }, handleErrorResponse);
+        }
+
+        function remove (paperId) {
+            console.log(paper);
         }
     }
 })();

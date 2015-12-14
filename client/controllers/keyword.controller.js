@@ -5,10 +5,10 @@
         .module('frdApp')
         .controller('KeywordController', KeywordController);
 
-    KeywordController.$inject = ['KeywordService', 'CommonService', 'toastr', '$uibModal'];
+    KeywordController.$inject = ['KeywordService', 'CommonService', 'toastr', '$uibModal', '$timeout', '$state'];
 
     /* @ngInject */
-    function KeywordController(KeywordService, CommonService, toastr, $uibModal) {
+    function KeywordController(KeywordService, CommonService, toastr, $uibModal, $timeout, $state) {
         var vm = this;
 
         activate();
@@ -22,12 +22,20 @@
         vm.isLoaded = false;
         vm.actionDescription = "";
 
+        //Pagination options
+        vm.totalItems = 0;
+        vm.currentPage = 1;
+        vm.itemPerPage = 8;
+        vm.isPaging = false;
+
         ///FUNCTIONS
         vm.updateKeyword = updateKeyword;
         vm.newKeyword = newKeyword;
         vm.saveKeyword = saveKeyword;
         vm.deleteKeyword = deleteKeyword;
         vm.showActionDescription = showActionDescription;
+        vm.paginate = paginate;
+        vm.pageChanged = pageChanged;
 
 
         /**
@@ -50,6 +58,7 @@
                 } else if (CommonService.isValidResponse(successResponse)) {
                     vm.keywords = [];
                     vm.keywords = CommonService.getResponse(successResponse);
+                    vm.totalItems = vm.keywords.length;
                 }
                 vm.isLoaded = true;
             }, handleErrorResponse);
@@ -93,25 +102,14 @@
             });
 
             saveModal.result.then(function(keyword) {
-                console.log('modal data', keyword);
                 KeywordService.insertOrUpdate(keyword).then(function(successResponse) {
                     console.log(successResponse);
                     if (successResponse.status === CommonService.statusCode.HTTP_CREATED) {
                         vm.keywords.push(keyword);
+                        $state.reload();
                         toastr.success('Keyword added successfully');
                     }
                 }, handleErrorResponse);
-                // UserService.deleteUser(user.id).then(function(successResponse) {
-                //     if (successResponse.status === 204) {
-                //         toastr.success('The user has been deleted successfully');
-                //         var idx = vm.users.indexOf(user);
-                //         if (idx !== -1) {
-                //             vm.users.splice(idx, 1);
-                //         }
-                //     }
-                // }, function() {
-                //     toastr.error('An error has occurred while trying to delete the user');
-                // });
             });
         }
 
@@ -152,13 +150,13 @@
             });
 
             updateModal.result.then(function(keyword) {
-                console.log('modal data', keyword);
                 KeywordService.insertOrUpdate(keyword).then(function(successResponse) {
                     console.log(successResponse);
                     if (successResponse.status === CommonService.statusCode.HTTP_NO_CONTENT) {
                         var idx = vm.keywords.indexOf(keyword);
-                        if(idx !== -1) {
+                        if (idx !== -1) {
                             vm.keywords[idx].description = keyword.description;
+                            $state.reload();
                         }
                     }
                 }, handleErrorResponse);
@@ -171,10 +169,10 @@
          * @return {mix}
          */
         function deleteKeyword(keyword) {
-            KeywordService.deleteKeyword(keyword.id).then(function  (successResponse) {
-                if(successResponse.status == CommonService.statusCode.HTTP_NO_CONTENT){
+            KeywordService.deleteKeyword(keyword.id).then(function(successResponse) {
+                if (successResponse.status == CommonService.statusCode.HTTP_NO_CONTENT) {
                     var idx = vm.keywords.indexOf(keyword);
-                    if(idx !== -1){
+                    if (idx !== -1) {
                         vm.keywords.splice(idx, 1);
                     }
                 }
@@ -198,5 +196,24 @@
                 }
             }
         }
+
+        /***
+         * Function execute every time we interact with the pagination control
+         */
+        function pageChanged() {
+            vm.isPaging = true;
+            $timeout(function() {
+                vm.isPaging = false;
+            }, 800);
+        }
+
+        function paginate(value) {
+            var begin, end, index;
+            begin = (vm.currentPage - 1) * vm.itemPerPage;
+            end = begin + vm.itemPerPage;
+            index = vm.keywords.indexOf(value);
+            return (begin <= index && index < end);
+        }
+
     }
 })();

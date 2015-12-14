@@ -2,9 +2,11 @@
 
 namespace FRD\DAL\Repositories;
 
+use FRD\Common\CommonFunction;
 use FRD\Common\Response;
 use FRD\DAL\Repositories\base\BaseRepository;
 use FRD\Model\Paper;
+use FRD\Request\PaperRequest;
 
 /**
  * Paper repository.
@@ -40,8 +42,16 @@ class PaperRepository extends BaseRepository
         }
     }
 
+    /**
+     * Get the papers that match a certain condition
+     * @param  string  $searchTerm  []
+     * @param  integer $page        []
+     * @param  integer $itemPerPage []
+     * @return [mix]               []
+     */
     public function getPapers($searchTerm, $page = 1, $itemPerPage = 10)
     {
+
         $result = [];
         $start = ($page - 1) * $itemPerPage;
 
@@ -49,38 +59,95 @@ class PaperRepository extends BaseRepository
         $query .= 'FROM papers ';
         $query .= 'JOIN authorship ON papers.id = authorship.paperId ';
         $query .= 'JOIN people ON authorship.facultyId = people.id ';
-        $query .= 'WHERE papers.title like ? OR people.firstName like ?  OR people.lastName like ? ';
+        if($searchTerm !== "*") {
+            $query .= 'WHERE papers.title like ? OR people.firstName like ?  OR people.lastName like ? ';
+        }
         $query .= 'LIMIT ? OFFSET ?';
-        $searchTerm = '%'.$searchTerm.'%';
-        $params = array($searchTerm, $searchTerm, $searchTerm, $itemPerPage, $start);
-
-        $papers = $this->db->query($query, $params);
-        $keywordQuery = 'SELECT id, keyword FROM paper_keywords WHERE id = ?';
+        if($searchTerm == "*") {
+            $allParams = array($itemPerPage, $start);
+            $papers = $this->db->query($query, $allParams);
+        }else {
+            $searchTerm = '%'.$searchTerm.'%';
+            $params = array($searchTerm, $searchTerm, $searchTerm, $itemPerPage, $start);
+            $papers = $this->db->query($query, $params);
+        }
+        //Select keywords related to a paper
+        $keywordQuery = "SELECT id, description ";
+        $keywordQuery .= "FROM keywords ";
+        $keywordQuery .= "JOIN papers_keywords ON keywords.id = papers_keywords.keywordId ";
+        $keywordQuery .= "WHERE papers_keywords.paperId = ?";
 
         //get the keywords
         if (is_array($papers) && count($papers) >= 1) {
             foreach ($papers as $paper) {
-                $paper->keywords = $this->db->query($keywordQuery, array($paper->id));
+                $paper->keywords = $this->getKeywords( $this->db->query($keywordQuery, array($paper->id)));
                 $result[] = $paper;
             }
-
             return $result;
         } elseif (is_object($papers)) {
-            $papers->keywords = $this->db->query($keywordQuery, array($papers->id));
-
+            $papers->keywords = $this->getKeywords($this->db->query($keywordQuery, array($papers->id)));
             return $papers;
         } else {
             return Response::notFound();
         }
     }
 
+    /**
+     * Get all papers
+     * @param  string $fields
+     * @return array
+     */
     public function getAll($fields = '*')
     {
         return $this->paper->getAll($fields);
     }
 
-    public function getById($id, $fields = '*')
+    /**
+     * Get a paper by id
+     * @param  int $id
+     * @param  array $fields
+     * @return object
+     */
+    public function getById($id)
     {
-        return  $this->paper->getById($id, $fields);
+        $paper =  $this->paper->getById($id);
+        if (CommonFunction::isValidResponse($paper)) {
+            return $paper;
+        }
+        return Response::notFound();
+    }
+
+
+    /**
+     * Insert a paper
+     * @param  JSON $jsonData
+     * @return Response
+     */
+    public function insert($jsonData)
+    {
+        $request = new PaperRequest();
+        $data = $request->validate($jsonData);
+        if (!$data) {
+            return Response::validationError($request->getErrors());
+        } else {
+            //return $data;
+            $response = $this->paper->post($data);
+            if ($response) {
+                return Response::created($response);
+            }
+            return Response::serverError($response, $this->db->getLastError());
+        }
+    }
+
+    /**
+     * Format keywords as an array
+     */
+    private function  getKeywords($keywords)
+    {
+        if(is_array($keywords)){
+            return $keywords;
+        }
+        $result[] = $keywords;
+        return  $result;
     }
 }

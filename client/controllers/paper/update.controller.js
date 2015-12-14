@@ -3,14 +3,15 @@
 
     angular
         .module('frdApp')
-        .controller('PaperAddController', PaperAddController);
+        .controller('PaperUpdateController', PaperUpdateController);
 
-    PaperAddController.$inject = ['PaperService', 'KeywordService', 'UserService', 'CommonService', 'toastr', '$q'];
+    PaperUpdateController.$inject = ['PaperService', 'KeywordService', 'UserService', '$state', 'CommonService', 'toastr', '$q', '$stateParams'];
 
     /* @ngInject */
-    function PaperAddController(PaperService, KeywordService, UserService,  CommonService, toastr, $q) {
+    function PaperUpdateController(PaperService, KeywordService, UserService, $state, CommonService, toastr, $q, $stateParams) {
 
         var vm = this;
+
         activate();
 
         //\/\/\\\//\ BINDABLE MEMBERS //\\/\\\\/\\/\/\/\/
@@ -18,11 +19,14 @@
         vm.keywords = [];
         vm.faculties = [];
         vm.errors = [];
+        vm.isLoaded = false;
         //\/\/\/\/\\\/FUNCTIONS /\\/\\\\\/\
         vm.isInvalid = CommonService.isInvalidFormElement;
         vm.goBack = goBack;
         vm.clearForm = clearForm;
-        vm.save = save;
+        vm.update = update;
+
+        ////////////////
 
         /**
          * Function run on controller activation
@@ -33,7 +37,16 @@
             $q.all([KeywordService.getAll(), UserService.getFacultiesList()]).then(function(data) {
                 handleKeyword(data[0]);
                 handleFaculties(data[1]);
-            }, handleErrorResponse);
+            }, handleErrorResponse).then(function() {
+                console.log($stateParams);
+                PaperService.getById($stateParams.paperId).then(function(successResponse) {
+                    console.log(successResponse);
+                    if(CommonService.isValidResponse(successResponse)){
+                        vm.paper = successResponse.data;
+                        vm.isLoaded = true;
+                    }
+                }, handleErrorResponse);
+            });
         }
 
         /**
@@ -102,14 +115,15 @@
          * @param  {form element} form
          * @return {mix}
          */
-        function save(form) {
-            PaperService.insertOrUpdate(vm.paper).then(function(successResponse) {
-                if(successResponse.status === CommonService.statusCode.HTTP_CREATED){
-                    CommonService.goToUrl('paperindex');
-                    return;
-                }
-                toastr.error("An error has occurred");
-            }, handleErrorResponse);
+        function update(form) {
+            console.log(vm.paper);
+            // PaperService.insertOrUpdate(vm.paper).then(function(successResponse) {
+            //     if (successResponse.status === CommonService.statusCode.HTTP_CREATED) {
+            //         CommonService.goToUrl('paperindex');
+            //         return;
+            //     }
+            //     toastr.error("An error has occurred");
+            // }, handleErrorResponse);
         }
     }
 })();

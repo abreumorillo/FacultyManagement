@@ -15,37 +15,44 @@
                     </div>
                 </div>
                 <!-- box-body table -->
-                <div class="box-body table-responsive no-padding" ng-if="vm.papers.length > 0">
+                <div class="box-body table-responsive " ng-if="vm.papers.length > 0 && vm.isLoaded">
                     <table class="table table-hover table-condensed">
                         <thead>
                             <tr>
                                 <th>Title</th>
                                 <th>Main Author</th>
                                 <th>Keywords</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="paper in vm.papers" class="nga-default nga-stagger nga-slide-left">
-                                <td>{{paper.title}}</td>
+                                <!-- <td>{{paper.title}}</td> -->
+                                <td><span ng-bind-html="paper.title"></span></td>
                                 <td>{{paper.author}}</td>
                                 <td>
-                                    <ul class="list-inline" ng-if="paper.keywords.length > 1">
+                                    <ul class="list-inline" ng-if="paper.keywords.length > 0">
                                         <li ng-repeat="keyword in paper.keywords">
-                                            <span ng-class="vm.getKeywordLabel(keyword.keyword)">{{keyword.keyword}}</span>
+                                            <span ng-class="vm.getKeywordLabel(keyword.description)">{{keyword.description}}</span>
                                         </li>
                                     </ul>
-                                    <span ng-if="paper.keywords.length <= 1">{{keyword.keyword}}</span>
+                                </td>
+                                <td>
+                                    <div class="pull-right">
+                                        <a class="btn btn-success btn-xs" popover-placement="left" uib-popover="Edit" popover-trigger="mouseenter" ui-sref="paperupdate({paperId: paper.id})"><i class="fa fa-edit"></i></a>
+                                        <button class="btn btn-danger btn-xs" popover-placement="left" uib-popover="Delete" popover-trigger="mouseenter" ng-click="vm.remove(paper.id)"><i class="fa fa-remove"></i></button>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <div class="col-xs-8 no-padding no-margin">
-                        <div data-pagination="" data-total-items="vm.totalItems" data-ng-change="vm.pageChanged()" data-ng-model="vm.currentPage" data-items-per-page="vm.itemPerPage" class="pagination-sm" boundary-links="true"></div>
-                    </div>
+                </div>
+                <div class="overlay" ng-if="vm.isPaging">
+                    <i class="fa fa-refresh fa-spin text-blue"></i>
                 </div>
                 <!-- ./box-body table -->
                 <!-- box-body alert -->
-                <div class="box-body" ng-if="vm.papers.length <= 0">
+                <div class="box-body" ng-if="vm.papers.length <= 0 && vm.isLoaded">
                     <br>
                     <div class="col-xs-8 col-xs-offset-2">
                         <div class="alert alert-danger alert-dismissible">
@@ -56,7 +63,15 @@
                 </div>
                 <!-- ./box-body alert -->
                 <div class="box-footer">
-                    <button class="btn btn-primary  btn-sm"><i class="fa fa-plus"></i> Add New Paper</button>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div ng-if="vm.totalItems > vm.itemPerPage" data-pagination="" data-total-items="vm.totalItems" data-ng-change="vm.pageChanged()" data-ng-model="vm.currentPage" data-items-per-page="vm.itemPerPage" class="pagination-sm" boundary-links="true">
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <button class="btn btn-primary  btn-sm pull-right" ui-sref="paperadd"><i class="fa fa-plus"></i> Add New Paper</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

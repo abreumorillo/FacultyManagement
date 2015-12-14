@@ -24,6 +24,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-danger" type="button" ng-disabled="keywordForm.$invalid" ng-click="ok()"><i class="fa fa-save"></i> Save</button>
+    <button class="btn btn-primary" ng-class="{'btn-primary': !keyword.id, 'btn-success': keyword.id}" type="button" ng-disabled="keywordForm.$invalid" ng-click="ok()">
+    <i class="fa" ng-class="{'fa-save': !keyword.id, 'fa-check': keyword.id}"></i> {{keyword.id ? 'Update': 'Save'}}</button>
     <button class="btn btn-warning" type="button" ng-click="cancel()"><i class="fa fa-ban"></i> Cancel</button>
 </div>
