@@ -20,10 +20,14 @@
         vm.isSearchResult = false;
         vm.papers = [];
         vm.isSearching = false;
+        vm.isShowingDetails = false;
+        vm.paperDetails = {};
 
         //FUNCTIONS
         vm.closeSearch = closeSearch;
         vm.getKeywordLabel = CommonService.getKeywordLabel;
+        vm.getPaperDetails = getPaperDetails;
+        vm.closeDetails = closeDetails;
 
         vm.closeSearch = function() {
             vm.isSearchResult = false;
@@ -57,7 +61,6 @@
                     vm.papers = [];
                     vm.papers = CommonService.getResponse(response);
                     vm.isSearchResult = true;
-                    console.log(vm.papers);
                 } else {
                     toastr.warning("No paper found that maches " + vm.searchTerm);
                 }
@@ -75,6 +78,15 @@
         function closeSearch() {
             vm.papers = [];
             vm.isSearchResult = false;
+        }
+
+        function getPaperDetails (paper) {
+            vm.isShowingDetails = true;
+            vm.paperDetails = paper;
+        }
+
+        function closeDetails () {
+            vm.isShowingDetails = false;
         }
 
     }

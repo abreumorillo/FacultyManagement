@@ -21,6 +21,11 @@ class Paper extends DbModel
      */
     protected $isAutoIncrement = false;
 
+    /**
+     * Save an entry to the database
+     * @param  array $data
+     * @return Integer
+     */
     public function post($data)
     {
         $this->db->startTransaction();
@@ -57,6 +62,42 @@ class Paper extends DbModel
     }
 
     /**
+     * Update an entry in the database
+     * @param  [type] $condition [description]
+     * @param  [type] $data      [description]
+     * @return [type]            [description]
+     */
+    public function put($condition, $data)
+    {
+        $this->db->startTransaction();
+        $paperId = $condition['id'];
+        $isInsertedKeywords = false;
+        $facultyId = $data['facultyId'];
+        $keywords = $data['keywords'];
+        unset($data['facultyId']);
+        unset($data['keywords']);
+        //Insert paper
+        $affectedRows =  parent::put($condition, $data);
+        // $authorshipQuery = "REPLACE INTO authorship (facultyId, paperId) VALUES (?, ?)";
+        $authorshipQuery = "UPDATE authorship SET facultyId = ? WHERE paperId = ?";
+        $affectedRows =+ $this->db->noSelect($authorshipQuery, array($facultyId, $paperId));
+        //Remmove existing keywords
+        $affectedRows += $this->db->noSelect("DELETE FROM papers_keywords WHERE paperId = ?", array($paperId));
+        //$keywordQuery = "REPLACE INTO papers_keywords (paperId, keywordId) VALUES (?, ?)";
+        $keywordQuery = "INSERT INTO papers_keywords (paperId, keywordId) VALUES (?, ?)";
+        foreach ($keywords as $keyword) {
+            $affectedRows += $this->db->noSelect($keywordQuery, array($paperId, $keyword));
+        }
+        if($affectedRows) {
+            $this->db->commit();
+            return $affectedRows;
+        }
+        $this->db->rollback();
+        return 0;
+
+    }
+
+    /**
      * Get keyword for a paper
      * @param  integer $paperId
      * @return mix
@@ -68,7 +109,7 @@ class Paper extends DbModel
         $query .= "FROM keywords ";
         $query .= "JOIN papers_keywords ON keywords.id = papers_keywords.keywordId ";
         $query .= "WHERE papers_keywords.paperId = ?";
-        return $this->processKeywords($this->db->query($keywordQuery, array($paperId)));
+        return $this->processKeywords($this->db->query($query, array($paperId)));
     }
 
     /**
@@ -110,7 +151,7 @@ class Paper extends DbModel
      */
     public function getFacultyIdByPaperId($paperId)
     {
-        $query = "SELECT facultyId FROM authorship WHERE paperId = ?";
+        $query = "SELECT facultyId FROM authorship WHERE paperId = ? LIMIT 1";
         $param = array($paperId);
         $faculty = $this->db->query($query, $param);
         if ($faculty) {
@@ -133,6 +174,29 @@ class Paper extends DbModel
             return $this->processKeywordsIds($keywords);
         }
         return [];
+    }
+
+    /**
+     * Delete a paper and its references from the database
+     * @param  array $condition
+     * @return boolean
+     */
+    public function delete($condition)
+    {
+        $param = array($condition['id']);
+        $this->db->startTransaction();
+        $deleteAuthorshipSql = "DELETE FROM authorship WHERE paperId = ?";
+        $deletePaperKeywordSql = "DELETE FROM papers_keywords WHERE paperId = ?";
+        $deletePaperSql = "DELETE FROM papers WHERE id = ?";
+        $affectedRows = $this->db->noSelect($deleteAuthorshipSql, $param);
+        $affectedRows += $this->db->noSelect($deletePaperKeywordSql, $param);
+        $affectedRows += $this->db->noSelect($deletePaperSql, $param);
+        if($affectedRows) {
+            $this->db->commit();
+            return true;
+        }
+        $this->db->rollback();
+        return false;
     }
 
     /**

@@ -1,0 +1,41 @@
+<div class="box box-success">
+    <div class="box-header">
+        <div class="pull-left">
+            <h3 class="box-title"><i class="fa fa-list text-green"></i> Paper details</h3>
+        </div>
+        <div class="pull-right">
+            <button class="btn btn-xs btn-danger pull-right" ng-click="vm.closeDetails()"><i class="fa fa-remove"></i> Close</button>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="box-body no-padding table-responsive">
+        <table class="table ">
+            <tr>
+                <th>Title</th>
+                <td><span ng-bind-html="vm.paperDetails.title"></span></td>
+            </tr>
+            <tr>
+                <th>Abastract</th>
+                <td><span ng-bind-html="vm.paperDetails.abstract"></span></td>
+            </tr>
+            <tr>
+                <th>Citation</th>
+                <td><span ng-bind-html="vm.paperDetails.citation"></span></td>
+            </tr>
+            <tr>
+                <th>Author</th>
+                <td><span ng-bind-html="vm.paperDetails.author"></span></td>
+            </tr>
+            <tr>
+                <th>Keywords</th>
+                <td>
+                    <ul class="list-inline" ng-if="vm.paperDetails.keywords.length > 0">
+                        <li ng-repeat="keyword in vm.paperDetails.keywords">
+                            <span ng-class="vm.getKeywordLabel(keyword.description)">{{keyword.description}}</span>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -21,6 +21,11 @@ class PaperRepository extends BaseRepository
         parent::__construct();
     }
 
+    /**
+     * Count the  number of paper that match a given criteria
+     * @param  string $searchTerm
+     * @return Integer
+     */
     public function count($searchTerm = null)
     {
         if (!$searchTerm || empty($searchTerm)) {
@@ -55,7 +60,7 @@ class PaperRepository extends BaseRepository
         $result = [];
         $start = ($page - 1) * $itemPerPage;
 
-        $query = 'SELECT papers.id, papers.title, CONCAT_WS(" ", people.lastName, people.firstName) AS author ';
+        $query = 'SELECT papers.id, papers.title, papers.abstract, papers.citation, CONCAT_WS(" ", people.lastName, people.firstName) AS author ';
         $query .= 'FROM papers ';
         $query .= 'JOIN authorship ON papers.id = authorship.paperId ';
         $query .= 'JOIN people ON authorship.facultyId = people.id ';
@@ -71,21 +76,15 @@ class PaperRepository extends BaseRepository
             $params = array($searchTerm, $searchTerm, $searchTerm, $itemPerPage, $start);
             $papers = $this->db->query($query, $params);
         }
-        //Select keywords related to a paper
-        $keywordQuery = "SELECT id, description ";
-        $keywordQuery .= "FROM keywords ";
-        $keywordQuery .= "JOIN papers_keywords ON keywords.id = papers_keywords.keywordId ";
-        $keywordQuery .= "WHERE papers_keywords.paperId = ?";
-
-        //get the keywords
+        //get the keywords getKeywordsByPaperId
         if (is_array($papers) && count($papers) >= 1) {
             foreach ($papers as $paper) {
-                $paper->keywords = $this->getKeywords( $this->db->query($keywordQuery, array($paper->id)));
+                $paper->keywords =  $this->paper->getKeywordsByPaperId($paper->id);
                 $result[] = $paper;
             }
             return $result;
         } elseif (is_object($papers)) {
-            $papers->keywords = $this->getKeywords($this->db->query($keywordQuery, array($papers->id)));
+            $papers->keywords =  $this->paper->getKeywordsByPaperId($papers->id);
             return $papers;
         } else {
             return Response::notFound();
@@ -140,14 +139,37 @@ class PaperRepository extends BaseRepository
     }
 
     /**
-     * Format keywords as an array
+     * Update an entry in the database
+     * @param  JSON $jsonData
+     * @return Response
      */
-    private function  getKeywords($keywords)
+    public function update($jsonData)
     {
-        if(is_array($keywords)){
-            return $keywords;
+        $request = new PaperRequest(true);
+        $data = $request->validate($jsonData);
+        if (!$data) {
+            return Response::validationError($request->getErrors());
+        } else {
+            //return $data;
+            $response = $this->paper->put(array('id'=> $jsonData->id), $data);
+            if ($response) {
+                return Response::noContent();
+            }
+            return Response::serverError($response, $this->db->getLastError());
         }
-        $result[] = $keywords;
-        return  $result;
     }
+
+     /**
+     * Delete a keyworkd form the database
+     * @param  int $keywordId
+     * @return mix
+     */
+    public function delete($keywordId)
+    {
+        if ($this->paper->delete(['id'=> $keywordId])) {
+            return Response::noContent();
+        }
+        return Response::serverError([], $this->db->getLastError());
+    }
+
 }

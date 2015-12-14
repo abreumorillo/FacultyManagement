@@ -5,10 +5,10 @@
         .module('frdApp')
         .factory('CommonService', CommonService);
 
-    CommonService.$inject = ['$log', '$state'];
+    CommonService.$inject = ['$log', '$state', '$sanitize'];
 
     /* @ngInject */
-    function CommonService($log, $state) {
+    function CommonService($log, $state, $sanitize) {
         var statusCode = {
             'HTTP_OK': 200,
             'HTTP_NO_CONTENT': 204,
@@ -22,7 +22,9 @@
             statusCode: statusCode,
             getKeywordLabel: _getKeywordLabel,
             isInvalidFormElement: _isInvalidFormElement,
-            goToUrl: _goToUrl
+            goToUrl: _goToUrl,
+            getSanitizeObject: _getSanitizeObject,
+            sanitize: _sanitize
         };
         return service;
 
@@ -42,7 +44,7 @@
             return result;
         }
 
-                /**
+        /**
          * Get label for the keywords
          * @param  {string} keyword
          * @return {bootstrap class}
@@ -87,7 +89,7 @@
          * @param formElement
          * @returns {rd.$dirty|*|dg.$dirty|$dirty|rd.$invalid|b.ctrl.$invalid} boolean
          */
-        function _isInvalidFormElement (formElement) {
+        function _isInvalidFormElement(formElement) {
             return formElement.$dirty && formElement.$invalid;
         }
         /**
@@ -96,8 +98,32 @@
          * @return {mix}
          */
         function _goToUrl(url) {
-            console.log(url);
             $state.go(url);
+        }
+
+        /**
+         * Sanitize the information of an object
+         * // console.log("obj." + prop + " = " + data[prop]);
+         * @param  {[type]} data [description]
+         * @return {[type]}      [description]
+         */
+        function _getSanitizeObject(data) {
+            var obj = {};
+            for (var prop in data) {
+                if (data.hasOwnProperty(prop)) {
+                    obj[prop] = $sanitize(data[prop]);
+                }
+            }
+            return obj;
+        }
+
+        /**
+         * Sanitize  a given value
+         * @param  {mix} input
+         * @return {sanitized}
+         */
+        function _sanitize(input) {
+            return $sanitize(input);
         }
 
     }

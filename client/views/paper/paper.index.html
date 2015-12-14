@@ -1,4 +1,5 @@
-<div class="nga-default nga-default nga-slide-up">
+<!-- Search and list of result -->
+<div class="nga-default nga-default nga-slide-up" ng-if="!vm.isShowingDetails">
     <!-- Result area -->
     <div class="row">
         <div class="col-xs-12">
@@ -40,7 +41,9 @@
                                 <td>
                                     <div class="pull-right">
                                         <a class="btn btn-success btn-xs" popover-placement="left" uib-popover="Edit" popover-trigger="mouseenter" ui-sref="paperupdate({paperId: paper.id})"><i class="fa fa-edit"></i></a>
-                                        <button class="btn btn-danger btn-xs" popover-placement="left" uib-popover="Delete" popover-trigger="mouseenter" ng-click="vm.remove(paper.id)"><i class="fa fa-remove"></i></button>
+                                        <button uib-popover="Details" popover-placement="left" popover-trigger="mouseenter" class="btn btn-primary btn-xs" ng-click="vm.getPaperDetails(paper)"><i class="fa fa-list"></i></button>
+                                        <button class="btn btn-danger btn-xs" popover-placement="left" uib-popover="Delete" popover-trigger="mouseenter" ng-click="vm.remove(paper)"><i class="fa fa-remove"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -77,3 +80,9 @@
         </div>
     </div>
 </div>
+<!-- ./search -->
+<!-- include detail template -->
+<div ng-include src="'/client/views/paper/paper.details.html'" class="nga-default nga-default nga-slide-up"
+ng-if="vm.isShowingDetails">
+</div>
+<!-- ./detail template -->

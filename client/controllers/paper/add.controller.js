@@ -84,6 +84,7 @@
          * @return {[mix]}
          */
         function handleErrorResponse(error) {
+            console.log(error);
             toastr.error('An error has occurred', "Code: " + error.status);
             if (error.status === 422) { //server side validation error
                 vm.errors = error.error;

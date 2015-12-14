@@ -38,11 +38,12 @@
                 handleKeyword(data[0]);
                 handleFaculties(data[1]);
             }, handleErrorResponse).then(function() {
-                console.log($stateParams);
                 PaperService.getById($stateParams.paperId).then(function(successResponse) {
-                    console.log(successResponse);
-                    if(CommonService.isValidResponse(successResponse)){
+                    if (CommonService.isValidResponse(successResponse)) {
                         vm.paper = successResponse.data;
+                        vm.paper.title = CommonService.sanitize(vm.paper.title);
+                        vm.paper.abstract = CommonService.sanitize(vm.paper.abstract);
+                        vm.paper.citation = CommonService.sanitize(vm.paper.citation);
                         vm.isLoaded = true;
                     }
                 }, handleErrorResponse);
@@ -98,6 +99,7 @@
          */
         function handleErrorResponse(error) {
             toastr.error('An error has occurred', "Code: " + error.status);
+            console.log(error);
             if (error.status === 422) { //server side validation error
                 vm.errors = error.error;
                 var msg = "";
@@ -116,14 +118,14 @@
          * @return {mix}
          */
         function update(form) {
-            console.log(vm.paper);
-            // PaperService.insertOrUpdate(vm.paper).then(function(successResponse) {
-            //     if (successResponse.status === CommonService.statusCode.HTTP_CREATED) {
-            //         CommonService.goToUrl('paperindex');
-            //         return;
-            //     }
-            //     toastr.error("An error has occurred");
-            // }, handleErrorResponse);
+            PaperService.insertOrUpdate(vm.paper).then(function(successResponse) {
+                console.log(successResponse);
+                if (successResponse.status === CommonService.statusCode.HTTP_NO_CONTENT) {
+                    CommonService.goToUrl('paperindex');
+                    return;
+                }
+                toastr.error("An error has occurred");
+            }, handleErrorResponse);
         }
     }
 })();

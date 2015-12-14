@@ -36,15 +36,12 @@ switch ($requestMethod) {
                 break;
         }
 
-        //action, itemPerPage, page, searchTerm
-        //echo json_encode($paperRepository->getAll(['title']));
-        // echo json_encode($paperRepository->getPapers('steve'));
         break;
     case 'POST':
         $jsonData = json_decode($_POST['data']);
+        //echo json_encode($jsonData);
         switch ($jsonData->action) {
             case 'insert':
-                // echo json_encode($jsonData);
                 echo json_encode($paperRepository->insert($jsonData));
                 break;
             case 'update':
@@ -52,10 +49,9 @@ switch ($requestMethod) {
                 break;
         }
         break;
-    case 'PUT':
-        echo 'PUT';
-        break;
+
     case 'DELETE':
-        echo 'DELETE';
+        $paperId = CommonFunction::getValue('paperId');
+        echo json_encode($paperRepository->delete($paperId));
         break;
 }

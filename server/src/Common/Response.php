@@ -39,6 +39,7 @@ class Response
     {
         http_response_code(500);
         $response['operationStatus'] = $data;
+        $response['message'] = $message;
         return $response;
     }
 

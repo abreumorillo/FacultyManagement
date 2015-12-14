@@ -23,6 +23,9 @@
         vm.currentPage = 1;
         vm.itemPerPage = 5;
         vm.isPaging = false;
+        vm.isShowingDetails = false;
+        vm.paperDetails = {};
+        vm.closeDetails = closeDetails;
 
 
         //\/\/\\/\/\/\/\\FUNCTIONS //\/\/\/\/\
@@ -31,6 +34,7 @@
         vm.pageChanged = pageChanged;
         vm.getKeywordLabel = CommonService.getKeywordLabel;
         vm.remove = remove;
+        vm.getPaperDetails = getPaperDetails;
 
         activate();
 
@@ -54,6 +58,7 @@
          * @return {mix}
          */
         function search() {
+            console.log('search');
             vm.isSearching = true;
             get(vm.searchTerm).then(function() {
                 vm.isSearching = false;
@@ -96,6 +101,11 @@
             });
         }
 
+        /**
+         * Paginate
+         * @param  {[type]} value [description]
+         * @return {[type]}       [description]
+         */
         function paginate(value) {
             var begin, end, index;
             begin = (vm.currentPage - 1) * vm.itemPerPage;
@@ -116,8 +126,39 @@
             }, handleErrorResponse);
         }
 
-        function remove (paperId) {
-            console.log(paper);
+        /**
+         * Remove a paper from the database.
+         * @param  {paper} paper
+         * @return {mix}
+         */
+        function remove (paper) {
+            PaperService.delete(paper.id).then(function(successResponse) {
+                if (successResponse.status == CommonService.statusCode.HTTP_NO_CONTENT) {
+                    var idx = vm.papers.indexOf(paper);
+                    if (idx !== -1) {
+                        vm.papers.splice(idx, 1);
+                    }
+                }
+            }, handleErrorResponse);
         }
+
+        /**
+         * [getPaperDetails description]
+         * @param  {object} paper
+         * @return {mix}
+         */
+        function getPaperDetails (paper) {
+            vm.paperDetails = paper;
+            vm.isShowingDetails = true;
+        }
+
+        /**
+         * Close details
+         * @return {mix}
+         */
+        function closeDetails () {
+            vm.isShowingDetails = false;
+        }
+
     }
 })();
