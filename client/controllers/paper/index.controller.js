@@ -5,14 +5,13 @@
         .module('frdApp')
         .controller('PaperIndexController', PaperIndexController);
 
-    PaperIndexController.$inject = ['PaperService', '$timeout', 'CommonService', 'toastr', '$cookies', 'appConfig'];
+    PaperIndexController.$inject = ['PaperService', '$timeout', 'CommonService', 'toastr', '$cookies', 'appConfig', '$filter'];
 
     /* @ngInject */
-    function PaperIndexController(PaperService, $timeout, CommonService, toastr, $cookies, appConfig) {
+    function PaperIndexController(PaperService, $timeout, CommonService, toastr, $cookies, appConfig, $filter) {
         var vm = this;
 
         //\\/\/\/\/\/\\\/ BINDABLE MEMBERS
-        vm.title = 'PaperIndexController';
         vm.papers = [];
         vm.isSearching = false;
         vm.searchTerm = "";
@@ -45,8 +44,7 @@
          * @return {mix}
          */
         function activate() {
-            // console.log(vm.title);
-            if($cookies.getObject(appConfig.cookieName)){
+            if ($cookies.getObject(appConfig.cookieName)) {
                 vm.userInfo = $cookies.getObject(appConfig.cookieName);
             }
             countPapers().then(function() {
@@ -62,7 +60,6 @@
          * @return {mix}
          */
         function search() {
-            console.log('search');
             vm.isSearching = true;
             get(vm.searchTerm).then(function() {
                 vm.isSearching = false;
@@ -78,7 +75,9 @@
             searchTerm = searchTerm || '*';
             return PaperService.getPaper(searchTerm, vm.currentPage, vm.itemPerPage).then(function(successResponse) {
                 if (CommonService.isValidResponse(successResponse)) {
-                    vm.papers = CommonService.getResponse(successResponse);
+                    var papers = CommonService.getResponse(successResponse);
+                    vm.papers = $filter('paperFilter')(papers, vm.userInfo, 'username');
+                    vm.totalItems = papers.length;
                 }
                 vm.isLoaded = true;
             }, handleErrorResponse);
@@ -91,7 +90,7 @@
          */
         function handleErrorResponse(errorResponse) {
             console.log(errorResponse);
-            toastr.error('An error has occurred', "Code: "+errorResponse.status);
+            toastr.error('An error has occurred', "Code: " + errorResponse.status);
             vm.isLoaded = true;
         }
 
@@ -135,7 +134,7 @@
          * @param  {paper} paper
          * @return {mix}
          */
-        function remove (paper) {
+        function remove(paper) {
             PaperService.delete(paper.id).then(function(successResponse) {
                 if (successResponse.status == CommonService.statusCode.HTTP_NO_CONTENT) {
                     var idx = vm.papers.indexOf(paper);
@@ -151,7 +150,7 @@
          * @param  {object} paper
          * @return {mix}
          */
-        function getPaperDetails (paper) {
+        function getPaperDetails(paper) {
             vm.paperDetails = paper;
             vm.isShowingDetails = true;
         }
@@ -160,7 +159,7 @@
          * Close details
          * @return {mix}
          */
-        function closeDetails () {
+        function closeDetails() {
             vm.isShowingDetails = false;
         }
 

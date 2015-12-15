@@ -111,7 +111,7 @@ $data = [
              </li>
              <li ng-if="isAuthenticated" ng-cloak="" class="nga-default nga-slide-up pointer">
               <a ng-click="logOut()">
-                <span class="label" ng-class="{'label-danger': role === 'Admin', 'label-warning': role === 'Faculty'}" ng-bind="role"></span> {{username}} | <i class="fa fa-sign-out fa-lg"></i> Logout</a>
+                <span class="label" ng-class="{'label-danger': role === 'Admin', 'label-warning': role === 'Faculty', 'label-info': role === 'Student'}" ng-bind="role"></span> {{username}} | <i class="fa fa-sign-out fa-lg"></i> Logout</a>
               </li>
             </ul>
           </div><!-- /.navbar-collapse -->
