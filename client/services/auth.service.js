@@ -7,10 +7,10 @@ angular
     .module('frdApp')
     .factory('AuthService', AuthService);
 
-AuthService.$inject = ['$http', '$q', 'appConfig'];
+AuthService.$inject = ['$http', '$q', 'appConfig', '$cookies'];
 
 /* @ngInject */
-function AuthService($http, $q, appConfig) {
+function AuthService($http, $q, appConfig, $cookies) {
     var serviceUrl = appConfig.baseUrl = 'server/controllers/LoginController.php',
         userData = {},
         service = {
@@ -40,7 +40,7 @@ function AuthService($http, $q, appConfig) {
             data: postData
         }).success(function(data, status) {
             userData = data;
-            console.log(data);
+            $cookies.putObject(appConfig.cookieName, data);
             deferred.resolve({
                 data: data,
                 status: status
@@ -104,6 +104,7 @@ function AuthService($http, $q, appConfig) {
             data: logoutData
         }).success(function(data, status) {
             userData = {};
+            $cookies.remove(appConfig.cookieName);
             deferred.resolve({
                 data: data,
                 status: status

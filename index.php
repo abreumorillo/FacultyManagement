@@ -107,11 +107,11 @@ $data = [
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li ng-if="!isAuthenticated" class="nga-default nga-slide-up">
-               <a ui-sref="login"> <i class="fa fa-user fa-lg"></i>&nbsp; Login</a>
+               <a ui-sref="login"> <i class="fa fa-sign-in fa-lg"></i>&nbsp; Login</a>
              </li>
-             <li ng-if="isAuthenticated" ng-cloak="" class="nga-default nga-slide-up">
-              <a ng-click="logOut()" style="cursor: pointer">
-                <span class="label" ng-class="{'label-danger': role === 'Admin', 'label-warning': role === 'Faculty'}" ng-bind="role"></span> {{username}} | Logout</a>
+             <li ng-if="isAuthenticated" ng-cloak="" class="nga-default nga-slide-up pointer">
+              <a ng-click="logOut()">
+                <span class="label" ng-class="{'label-danger': role === 'Admin', 'label-warning': role === 'Faculty'}" ng-bind="role"></span> {{username}} | <i class="fa fa-sign-out fa-lg"></i> Logout</a>
               </li>
             </ul>
           </div><!-- /.navbar-collapse -->

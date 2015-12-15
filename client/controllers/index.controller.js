@@ -5,10 +5,10 @@
         .module('frdApp')
         .controller('IndexController', IndexController);
 
-    IndexController.$inject = ['$scope', 'IndexService','CommonService', 'toastr'];
+    IndexController.$inject = ['$scope', 'IndexService','CommonService', 'toastr', '$cookies', 'appConfig'];
 
     /* @ngInject */
-    function IndexController($scope, IndexService, CommonService, toastr) {
+    function IndexController($scope, IndexService, CommonService, toastr, $cookies, appConfig) {
         var vm = this;
         vm.title = 'IndexController';
         vm.searchTerm = "";
@@ -39,6 +39,7 @@
 
         function activate() {
             // toastr.info('Index Controller Activated');
+            console.log($cookies.getObject(appConfig.cookieName));
         }
 
         /**

@@ -9,7 +9,8 @@
     //obtain the base url of the application
     var baseUrl = location.protocol + "//" + location.host + location.pathname;
     var appConfig = {
-        baseUrl: baseUrl
+        baseUrl: baseUrl,
+        cookieName: 'frdUserInfo'
     };
 
     angular
