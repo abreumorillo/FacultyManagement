@@ -119,7 +119,6 @@
          */
         function update(form) {
             PaperService.insertOrUpdate(vm.paper).then(function(successResponse) {
-                console.log(successResponse);
                 if (successResponse.status === CommonService.statusCode.HTTP_NO_CONTENT) {
                     CommonService.goToUrl('paperindex');
                     return;

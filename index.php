@@ -101,7 +101,7 @@ $data = [
               <li><a ui-sref="index" ui-sref-active="active">
                 <i class="fa fa-home fa-lg"></i>&nbsp;Home</a>
               </li>
-              <li ng-if="isAuthenticated" class="nga-default nga-slide-up"><a ui-sref="admin.index" ui-sref-active="active">
+              <li ng-if="isAuthenticated && (role === 'Admin' || role === 'Faculty')" class="nga-default nga-slide-up"><a ui-sref="admin.index" ui-sref-active="active">
               <i class="fa fa-gear fa-lg"></i>&nbsp;Admin</a>
               </li>
             </ul>
@@ -155,6 +155,8 @@ $data = [
     <script src="client/Services/keyword.service.js"></script>
     <script src="client/Services/paper.service.js"></script>
 
+    <!-- filters -->
+    <script src="client/filters/paper.filter.js"></script>
     <!-- Directives -->
     <script src="client/directives/common.directive.js"></script>
     <script src="client/directives/password.directive.js"></script>

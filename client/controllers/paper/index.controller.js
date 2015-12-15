@@ -5,10 +5,10 @@
         .module('frdApp')
         .controller('PaperIndexController', PaperIndexController);
 
-    PaperIndexController.$inject = ['PaperService', '$timeout', 'CommonService', 'toastr'];
+    PaperIndexController.$inject = ['PaperService', '$timeout', 'CommonService', 'toastr', '$cookies', 'appConfig'];
 
     /* @ngInject */
-    function PaperIndexController(PaperService, $timeout, CommonService, toastr) {
+    function PaperIndexController(PaperService, $timeout, CommonService, toastr, $cookies, appConfig) {
         var vm = this;
 
         //\\/\/\/\/\/\\\/ BINDABLE MEMBERS
@@ -17,11 +17,12 @@
         vm.isSearching = false;
         vm.searchTerm = "";
         vm.isLoaded = false;
+        vm.userInfo = {};
 
         //Pagination options
         vm.totalItems = 0;
         vm.currentPage = 1;
-        vm.itemPerPage = 5;
+        vm.itemPerPage = 8;
         vm.isPaging = false;
         vm.isShowingDetails = false;
         vm.paperDetails = {};
@@ -45,6 +46,9 @@
          */
         function activate() {
             // console.log(vm.title);
+            if($cookies.getObject(appConfig.cookieName)){
+                vm.userInfo = $cookies.getObject(appConfig.cookieName);
+            }
             countPapers().then(function() {
                 if (vm.totalItems > 0) {
                     get();

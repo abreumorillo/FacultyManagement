@@ -10,7 +10,7 @@
                     <div class="form-group">
                         <label for="username" class="control-label col-sm-2">Username</label>
                         <div style="margin-bottom: 25px" class="col-sm-8">
-                            <input id="username" type="text" class="form-control" name="username" value="" placeholder="Username" data-ng-model="vm.user.username" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 200, 'blur': 0} }" required="" autocomplete="off" minlength="3" maxlength="12" ng-focus="usernameFocus = true" ng-blur="usernameFocus = false">
+                            <input id="username" type="text" class="form-control" name="username" value="" placeholder="Username" data-ng-model="vm.user.username"  required="" autocomplete="off" minlength="3" maxlength="12" ng-focus="usernameFocus = true" ng-blur="usernameFocus = false">
                             <!-- error message-->
                             <div data-ng-messages="loginForm.username.$error" ng-if="vm.isInvalid(loginForm.username) && !usernameFocus" class="error-messages nga-default nga-rotate-up">
                                 <span data-ng-message="required">The username is required.</span>
@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <label for="password" class="control-label col-sm-2">Password</label>
                         <div style="margin-bottom: 25px" class="col-sm-8">
-                            <input id="password" type="password" class="form-control" name="password" placeholder="password" data-ng-model="vm.user.password" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 200, 'blur': 0} }" required="" minlength="5" autocomplete="off" minlength="3" maxlength="12" ng-focus="passwordFocus = true" ng-blur="passwordFocus = false">
+                            <input id="password" type="password" class="form-control" name="password" placeholder="password" data-ng-model="vm.user.password"  required="" minlength="5" autocomplete="off" minlength="3" maxlength="12" ng-focus="passwordFocus = true" ng-blur="passwordFocus = false">
                             <!-- error message-->
                             <div data-ng-messages="loginForm.password.$error" ng-if="vm.isInvalid(loginForm.password) && !passwordFocus" class="error-messages nga-default nga-rotate-up">
                                 <span data-ng-message="required">The username is required.</span>

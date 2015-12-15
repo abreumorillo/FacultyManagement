@@ -4,6 +4,7 @@ namespace FRD\DAL\Repositories;
 
 use FRD\Common\CommonFunction;
 use FRD\Common\Response;
+use FRD\Common\Session;
 use FRD\DAL\Repositories\base\BaseRepository;
 use FRD\Model\Paper;
 use FRD\Request\PaperRequest;
@@ -14,11 +15,15 @@ use FRD\Request\PaperRequest;
 class PaperRepository extends BaseRepository
 {
     private $paper;
+    private $userId ="";
+    private $userRole = "";
+    private $isManagerLoggedin = false;
 
     public function __construct()
     {
         $this->paper = new Paper();
         parent::__construct();
+        $this->getUserInfo();
     }
 
     /**
@@ -30,7 +35,7 @@ class PaperRepository extends BaseRepository
     {
         if (!$searchTerm || empty($searchTerm)) {
             return intval($this->paper->count());
-        }else {
+        } else {
             $query  = "SELECT COUNT(*) as count ";
             $query .= 'FROM papers ';
             $query .= 'JOIN authorship ON papers.id = authorship.paperId ';
@@ -40,7 +45,7 @@ class PaperRepository extends BaseRepository
             $searchTerm = '%'.$searchTerm.'%';
             $params = array($searchTerm, $searchTerm, $searchTerm);
             $result = $this->db->query($query, $params);
-            if($result) {
+            if ($result) {
                 return  $result->count;
             }
             return 0;
@@ -56,22 +61,21 @@ class PaperRepository extends BaseRepository
      */
     public function getPapers($searchTerm, $page = 1, $itemPerPage = 10)
     {
-
         $result = [];
         $start = ($page - 1) * $itemPerPage;
 
-        $query = 'SELECT papers.id, papers.title, papers.abstract, papers.citation, CONCAT_WS(" ", people.lastName, people.firstName) AS author ';
+        $query = 'SELECT papers.id, papers.title, papers.abstract, papers.citation, CONCAT_WS(" ", people.lastName, people.firstName) AS author, people.username ';
         $query .= 'FROM papers ';
         $query .= 'JOIN authorship ON papers.id = authorship.paperId ';
         $query .= 'JOIN people ON authorship.facultyId = people.id ';
-        if($searchTerm !== "*") {
+        if ($searchTerm !== "*") {
             $query .= 'WHERE papers.title like ? OR people.firstName like ?  OR people.lastName like ? ';
         }
         $query .= 'LIMIT ? OFFSET ?';
-        if($searchTerm == "*") {
+        if ($searchTerm == "*") {
             $allParams = array($itemPerPage, $start);
             $papers = $this->db->query($query, $allParams);
-        }else {
+        } else {
             $searchTerm = '%'.$searchTerm.'%';
             $params = array($searchTerm, $searchTerm, $searchTerm, $itemPerPage, $start);
             $papers = $this->db->query($query, $params);
@@ -164,12 +168,18 @@ class PaperRepository extends BaseRepository
      * @param  int $keywordId
      * @return mix
      */
-    public function delete($keywordId)
-    {
-        if ($this->paper->delete(['id'=> $keywordId])) {
-            return Response::noContent();
-        }
-        return Response::serverError([], $this->db->getLastError());
-    }
+     public function delete($keywordId)
+     {
+         if ($this->paper->delete(['id'=> $keywordId])) {
+             return Response::noContent();
+         }
+         return Response::serverError([], $this->db->getLastError());
+     }
 
+     private function getUserInfo()
+     {
+         $this->userId = Session::getUserId();
+         $this->userRole = Session::getUserRole();
+         $this->isManagerLoggedin = Session::isManagerLoggedin();
+     }
 }

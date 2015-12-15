@@ -52,7 +52,6 @@
          */
         function getAll() {
             KeywordService.getAll().then(function(successResponse) {
-                console.log(successResponse);
                 if (successResponse.status === 204) {
                     toastr.warning('There is not keyword in the database');
                     vm.keywords = [];
@@ -104,10 +103,9 @@
 
             saveModal.result.then(function(keyword) {
                 KeywordService.insertOrUpdate(keyword).then(function(successResponse) {
-                    console.log(successResponse);
                     if (successResponse.status === CommonService.statusCode.HTTP_CREATED) {
                         vm.keywords.push(keyword);
-                        $state.reload();
+                        //$state.reload();
                         toastr.success('Keyword added successfully');
                     }
                 }, handleErrorResponse);
