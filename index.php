@@ -101,17 +101,17 @@ $data = [
               <li><a ui-sref="index" ui-sref-active="active">
                 <i class="fa fa-home fa-lg"></i>&nbsp;Home</a>
               </li>
-              <li><a ui-sref="admin.index" ui-sref-active="active">
+              <li ng-if="isAuthenticated" class="nga-default nga-slide-up"><a ui-sref="admin.index" ui-sref-active="active">
               <i class="fa fa-gear fa-lg"></i>&nbsp;Admin</a>
               </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li ng-if="!isAuthenticated">
+              <li ng-if="!isAuthenticated" class="nga-default nga-slide-up">
                <a ui-sref="login"> <i class="fa fa-user fa-lg"></i>&nbsp; Login</a>
              </li>
-             <li ng-if="isAuthenticated" ng-cloak="">
-              <a ng-click="logOut()">
-                {{lastName }} {{firstName}} | Logout</a>
+             <li ng-if="isAuthenticated" ng-cloak="" class="nga-default nga-slide-up">
+              <a ng-click="logOut()" style="cursor: pointer">
+                <span class="label" ng-class="{'label-danger': role === 'Admin', 'label-warning': role === 'Faculty'}" ng-bind="role"></span> {{username}} | Logout</a>
               </li>
             </ul>
           </div><!-- /.navbar-collapse -->
@@ -150,7 +150,7 @@ $data = [
     <script src="client/Services/common.service.js"></script>
     <script src="client/Services/index.service.js"></script>
     <script src="client/Services/admin.service.js"></script>
-    <script src="client/Services/login.service.js"></script>
+    <script src="client/Services/auth.service.js"></script>
     <script src="client/Services/user.service.js"></script>
     <script src="client/Services/keyword.service.js"></script>
     <script src="client/Services/paper.service.js"></script>

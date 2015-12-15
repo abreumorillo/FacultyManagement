@@ -52,6 +52,7 @@
          */
         function getAll() {
             KeywordService.getAll().then(function(successResponse) {
+                console.log(successResponse);
                 if (successResponse.status === 204) {
                     toastr.warning('There is not keyword in the database');
                     vm.keywords = [];

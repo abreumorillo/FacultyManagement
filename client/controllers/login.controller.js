@@ -5,30 +5,72 @@
         .module('frdApp')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['LoginService'];
+    LoginController.$inject = ['AuthService', 'CommonService', 'toastr', '$rootScope'];
 
     /* @ngInject */
-    function LoginController(LoginService) {
+    function LoginController(AuthService, CommonService, toastr, $rootScope) {
         var vm = this;
-        vm.title = 'LoginController';
 
-        vm.isInvalid = isInvalid;
+        //\/\\/\/\/\/\/\/\/\ BINDABLE MEMBERS /\/\/\\/\/\/\/
+        vm.user = {};
+        vm.errors = [];
 
+        //\/\/\\/\\/\/\/\/\\/ GLOBAL VARIABLES /\\/\/\/\/\//\/
+        $rootScope.isAuthenticated = false;
+        $rootScope.username = '';
+        $rootScope.role = '';
+        $rootScope.logOut = logOut;
+
+        //\/\/\\/\\/\/\/\/\/\\/\/\\/\/ FUNCTIONS /\/\\/\/\/\/\
+        vm.isInvalid = CommonService.isInvalidFormElement;
+        vm.login = login;
         activate();
 
         ////////////////
 
-        function activate() {
-            console.log('LoginController');
+        function activate() {}
+
+        function logOut() {
+            AuthService.logOut().then(function(successResponse) {
+                if (CommonService.isValidResponse(successResponse)) {
+                    $rootScope.isAuthenticated = false;
+                    $rootScope.username = '';
+                    $rootScope.role = '';
+                    CommonService.goToUrl('login');
+                }
+            }, notifyError);
+        }
+
+        function login() {
+            AuthService.login(vm.user).then(function(successResponse) {
+                if (CommonService.isValidResponse(successResponse)) {
+                    //set global varibles
+                    var data = successResponse.data;
+                    $rootScope.isAuthenticated = data.isAuthenticated;
+                    $rootScope.username = data.username;
+                    $rootScope.role = data.role;
+                    CommonService.goToUrl('admin.index');
+                }
+            }, notifyError);
         }
 
         /**
-         * This function is used for validation purpose. It evaluates if a given form element is dirty and invalid
-         * @param formElement
-         * @returns {rd.$dirty|*|dg.$dirty|$dirty|rd.$invalid|b.ctrl.$invalid} boolean
+         * Notify errors to the user using toaster component
+         * @param data
          */
-        function isInvalid(formElement) {
-            return formElement.$dirty && formElement.$invalid;
+        function notifyError(data) {
+            var errors = "";
+            if (data.status === 422) {
+                angular.forEach(data.error, function(item) {
+                    vm.errors.push(item);
+                    errors += item + '<br/>';
+                });
+            } else {
+                errors  ="Incorrect username or password";
+                vm.errors.push(errors);
+            }
+            toastr.error(errors, 'Errors had occurred');
         }
+
     }
 })();

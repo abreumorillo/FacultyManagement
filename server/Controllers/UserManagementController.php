@@ -1,5 +1,5 @@
 <?php
-
+require_once('../../session.inc');
 require_once '../../bootstrapper.inc';
 
 use FRD\Common\CommonFunction;

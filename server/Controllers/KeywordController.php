@@ -1,13 +1,6 @@
 <?php
+require_once('../../session.inc');
 require_once('../../bootstrapper.inc');
-
-function exception_handler($exception)
-{
-    http_response_code(500);
-    echo  "Uncaught exception: " , $exception->getMessage(), "\n";
-}
-
-set_exception_handler('exception_handler');
 
 use FRD\Common\CommonFunction;
 use FRD\DAL\Repositories\KeywordRepository;
