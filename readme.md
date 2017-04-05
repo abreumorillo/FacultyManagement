@@ -1,8 +1,7 @@
 # ISTE-330/722 Database Connectivity and Access
 ## Faculty Research Database
-
+### Team members: Yumi Kim, Jairo Veloz
 ### Documentation...
-
 For autoloading and namespacing composer will be used. The main namespace for this application if **FRD**  (Faculty Research Database). The FRD namespace is basically mapped to server/src folder, so that means that everything under this folder structure will be automacally autoload by the composer autoload.
 
 So far, this is the folder structure.
