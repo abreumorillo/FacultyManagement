@@ -105,7 +105,7 @@
                 KeywordService.insertOrUpdate(keyword).then(function(successResponse) {
                     if (successResponse.status === CommonService.statusCode.HTTP_CREATED) {
                         vm.keywords.push(keyword);
-                        //$state.reload();
+                        $state.reload();
                         toastr.success('Keyword added successfully');
                     }
                 }, handleErrorResponse);
